@@ -5,8 +5,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -135,12 +133,17 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent="center">
               <Grid item>
                 <Link href="/log-in" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
+            </Grid>
+            <Grid container justifyContent="center">
+              <Link href="/home" variant="body2">
+                Continue as Guest
+              </Link>
             </Grid>
           </Box>
         </Box>
