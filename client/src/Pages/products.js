@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 // import { useParams } from "react-router-dom";
 import Link from "@mui/material/Link";
-function Products({ products, url, setUrl, setProducts }) {
+function Products() {
+  const [products, setProducts] = useState([]);
+
   useEffect(() => {
-    setUrl("/products");
-  }, [url, setUrl]);
+    fetch("/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data));
+  }, []);
 
   // Triggers when window changes
 

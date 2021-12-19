@@ -111,17 +111,23 @@ export default function Navbar() {
       </List>
       <Divider />
       <List>
-        <ListItem button component={Link} to="/sign-in" key="Profile">
+        <ListItem button component={Link} to="/log-in" key="Profile">
           <ListItemIcon>
             <AccountCircleIcon />
           </ListItemIcon>
           <ListItemText primary="Profile" />
         </ListItem>
-        <ListItem button component={Link} to="/sign-in" key="Sign Out">
+        <ListItem button component={Link} to="/log-in" key="Sign Out">
           <ListItemIcon>
             <LogoutIcon />
           </ListItemIcon>
           <ListItemText primary="Sign Out" />
+        </ListItem>
+        <ListItem button component={Link} to="/sign-up" key="Sign Up">
+          <ListItemIcon>
+            <LogoutIcon />
+          </ListItemIcon>
+          <ListItemText primary="Create Account" />
         </ListItem>
       </List>
     </Box>

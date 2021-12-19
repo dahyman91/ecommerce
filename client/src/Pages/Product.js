@@ -13,7 +13,6 @@ const styles = {
 };
 const insideStyles = {
   background: "white",
-  // padding: 20,
   borderRadius: "10px",
   position: "absolute",
   top: "70%",
@@ -21,11 +20,8 @@ const insideStyles = {
   transform: "translate(-50%,-50%)",
 };
 
-function Product({ setUrl }) {
+function Product({}) {
   const { product } = useParams();
-  useEffect(() => {
-    setUrl(`/products/${product}`);
-  }, [setUrl, product]);
 
   return (
     <>

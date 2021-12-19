@@ -9,35 +9,21 @@ import Navbar from "../src/Components/Navbar";
 import "./App.css";
 
 function App() {
-  const [url, setUrl] = useState("");
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    fetch("/products")
-      .then((res) => res.json())
-      .then((data) => setProducts(data));
-  }, []);
-
   return (
     <div className="App">
       <Navbar />
       <Switch>
         <Route path="/sign-up">
-          <SignUp setUrl={setUrl} />
+          <SignUp />
         </Route>
         <Route path="/log-in">
           <LogIn />
         </Route>
         <Route exact path="/products">
-          <Products
-            products={products}
-            setProducts={setProducts}
-            url={url}
-            setUrl={setUrl}
-          />
+          <Products />
         </Route>
         <Route exact path="/products/:product">
-          <Product setUrl={setUrl} />
+          <Product />
         </Route>
       </Switch>
     </div>

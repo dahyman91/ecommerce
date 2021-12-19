@@ -12,10 +12,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-function Copyright({ setUrl }) {
-  useEffect(() => {
-    setUrl("/login");
-  }, [setUrl]);
+function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {"No Copyright © "}
