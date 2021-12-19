@@ -1,19 +1,25 @@
-import React, { useState } from "react";
-import Button from "@mui/material/Button";
+import React, { useState, useEffect } from "react";
+// import { useParams } from "react-router-dom";
 import Link from "@mui/material/Link";
-function Products() {
-  const [products, setProducts] = useState(["one", "two", "three"]);
+function Products({ products, url, setUrl, setProducts }) {
+  useEffect(() => {
+    setUrl("/products");
+  }, [url, setUrl]);
+
+  // Triggers when window changes
+
+  // window.onpopstate = fetch("/products")
+  //   .then((res) => res.json())
+  //   .then((data) => setProducts(data));
 
   return (
-    <ul>
+    <ul style={{ paddingTop: "75px" }}>
       {products.map((product) => {
         return (
-          <li>
-            <Button>
-              <Link href={`/products/${product}`} variant="body2">
-                {product}
-              </Link>
-            </Button>
+          <li key={product.id}>
+            <Link href={`/products/${product.id}`} variant="body2">
+              {product.name}
+            </Link>
           </li>
         );
       })}

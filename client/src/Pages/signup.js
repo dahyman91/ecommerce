@@ -1,6 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,14 +12,12 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-function Copyright(props) {
+function Copyright({ setUrl }) {
+  useEffect(() => {
+    setUrl("/login");
+  }, [setUrl]);
   return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
+    <Typography variant="body2" color="text.secondary" align="center">
       {"No Copyright © "}
       <Link color="inherit" href="https://mui.com/">
         Store
@@ -45,8 +42,6 @@ export default function SignUp() {
     console.log(lastName);
     console.log(email);
     console.log(password);
-
-    // eslint-disable-next-line no-console
   };
 
   return (
