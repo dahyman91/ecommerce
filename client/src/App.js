@@ -1,5 +1,5 @@
 import "./Pages/Signup";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import LogIn from "./Pages/Login";
 import SignUp from "./Pages/Signup";
 import Product from "./Pages/Product";
@@ -12,6 +12,9 @@ function App() {
     <div className="App">
       <Navbar />
       <Switch>
+        <Route exact path="/">
+          <Redirect to="/log-in" />
+        </Route>
         <Route path="/sign-up">
           <SignUp />
         </Route>
