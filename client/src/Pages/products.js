@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
-// import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+
 import Link from "@mui/material/Link";
 function Products() {
   const [products, setProducts] = useState([]);
-
   useEffect(() => {
     fetch("/products")
       .then((res) => res.json())
       .then((data) => setProducts(data));
   }, []);
-
   // Triggers when window changes
 
   // window.onpopstate = fetch("/products")

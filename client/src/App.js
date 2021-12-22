@@ -1,5 +1,4 @@
 import "./Pages/Signup";
-import { useState, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import LogIn from "./Pages/Login";
 import SignUp from "./Pages/Signup";
