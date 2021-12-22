@@ -2,5 +2,13 @@
   "devDependencies": {
     "@prettier/plugin-ruby": "^2.0.0",
     "prettier": "^2.5.1"
+  },
+  "scripts": {
+    "build": "cd client && npm run build",
+    "install": "cd client && npm install",
+    "start": "node server",
+    "server": "nodemon server",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   }
 }
