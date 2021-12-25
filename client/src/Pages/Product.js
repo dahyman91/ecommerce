@@ -4,7 +4,6 @@ import photo from "../Assets/photo.jpeg";
 import { useParams } from "react-router-dom";
 
 import Button from "@mui/material/Button";
-import { selectClasses } from "@mui/material";
 
 const styles = {
   fontFamily: "sans-serif",
@@ -23,16 +22,15 @@ const insideStyles = {
 
 function Product({}) {
   const { product } = useParams();
-  const [selectedProduct, setSelectedProduct] = useState(null);
-
-  console.log(selectedProduct);
+  const [selectedProduct, setSelectedProduct] = useState({});
 
   useEffect(() => {
     fetch(`/products/${product}`)
       .then((res) => res.json())
       .then((data) => setSelectedProduct(data));
-  }, []);
+  }, [product]);
 
+  console.log(selectedProduct);
   return (
     <>
       <div style={styles}>
