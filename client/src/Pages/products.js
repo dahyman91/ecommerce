@@ -3,17 +3,13 @@ import React, { useEffect, useState } from "react";
 import Link from "@mui/material/Link";
 function Products() {
   const [products, setProducts] = useState([]);
+
   useEffect(() => {
     const request = fetch("/products")
       .then((res) => res.json())
       .then((data) => setProducts(data));
     console.log(request);
   }, []);
-  // Triggers when window changes
-
-  // window.onpopstate = fetch("/products")
-  //   .then((res) => res.json())
-  //   .then((data) => setProducts(data));
 
   return (
     <ul style={{ paddingTop: "75px" }}>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -28,19 +28,40 @@ function Copyright() {
 
 const theme = createTheme();
 
-export default function SignUp() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+export default function SignUp({ setCurrentUser }) {
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState("");
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(firstName);
-    console.log(lastName);
-    console.log(email);
-    console.log(password);
-  };
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    fetch("/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        first_name,
+        last_name,
+        email,
+        password,
+      }),
+    }).then((res) => {
+      if (res.ok) {
+        setCurrentUser({
+          first_name,
+          last_name,
+          email,
+          password,
+        });
+      } else {
+        res.json().then((e) => setErrors(Object.entries(e.error).flat()));
+      }
+    });
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -70,7 +91,7 @@ export default function SignUp() {
               <Grid item xs={12} sm={6}>
                 <TextField
                   onChange={(e) => setFirstName(e.target.value)}
-                  value={firstName}
+                  value={first_name}
                   autoComplete="given-name"
                   name="firstName"
                   required
@@ -83,7 +104,7 @@ export default function SignUp() {
               <Grid item xs={12} sm={6}>
                 <TextField
                   onChange={(e) => setLastName(e.target.value)}
-                  value={lastName}
+                  value={last_name}
                   required
                   fullWidth
                   id="lastName"

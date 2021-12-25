@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -33,14 +33,28 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function LogIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+export default function LogIn({ setCurrentUser, currentUser }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    fetch("/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    }).then((r) => {
+      setIsLoading(false);
+      if (r.ok) {
+        r.json().then((user) => setCurrentUser(user));
+      } else {
+        r.json().then((err) => setErrors(err.errors));
+      }
     });
   };
 
@@ -92,6 +106,8 @@ export default function LogIn() {
                 fullWidth
                 id="email"
                 label="Email Address"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
                 name="email"
                 autoComplete="email"
                 autoFocus
@@ -104,6 +120,8 @@ export default function LogIn() {
                 label="Password"
                 type="password"
                 id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
               />
               <FormControlLabel

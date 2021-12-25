@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Parallax, Background } from "react-parallax";
 import photo from "../Assets/photo.jpeg";
 import { useParams } from "react-router-dom";
 
 import Button from "@mui/material/Button";
+import { selectClasses } from "@mui/material";
 
 const styles = {
   fontFamily: "sans-serif",
@@ -22,11 +23,20 @@ const insideStyles = {
 
 function Product({}) {
   const { product } = useParams();
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  console.log(selectedProduct);
+
+  useEffect(() => {
+    fetch(`/products/${product}`)
+      .then((res) => res.json())
+      .then((data) => setSelectedProduct(data));
+  }, []);
 
   return (
     <>
       <div style={styles}>
-        <Parallax bgImage={photo} strength={500}>
+        <Parallax bgImage={selectedProduct.primary_image} strength={500}>
           <div style={{ height: 500 }}>
             <div>
               <h3>{product}</h3>

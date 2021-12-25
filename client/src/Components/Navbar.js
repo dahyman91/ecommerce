@@ -64,7 +64,8 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   justifyContent: "center",
 }));
 
-export default function Navbar() {
+export default function Navbar({ currentUser }) {
+  console.log(currentUser);
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -168,7 +169,7 @@ export default function Navbar() {
               </>
             ))}
           </IconButton>
-          <Typography>Dan's Store: A Place to Buy Things</Typography>
+          <Typography>{`Dan's Store: A Place to Buy Things ${currentUser.first_name}`}</Typography>
           <Search style={{ position: "absolute", right: "100px" }}>
             <SearchIconWrapper>
               <SearchIcon />
