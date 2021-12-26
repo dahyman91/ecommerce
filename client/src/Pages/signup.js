@@ -28,7 +28,7 @@ function Copyright() {
 
 const theme = createTheme();
 
-export default function SignUp({ setCurrentUser }) {
+export default function SignUp({ setCurrentUser, currentUser }) {
   const [first_name, setFirstName] = useState("");
   const [last_name, setLastName] = useState("");
   const [email, setEmail] = useState("");

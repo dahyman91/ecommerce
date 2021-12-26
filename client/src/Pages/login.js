@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
+import Products from "./Products";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -51,7 +53,10 @@ export default function LogIn({ setCurrentUser, currentUser }) {
     }).then((r) => {
       setIsLoading(false);
       if (r.ok) {
-        r.json().then((user) => setCurrentUser(user));
+        r.json().then((user) => {
+          setCurrentUser(user);
+          window.location.href = "/";
+        });
       } else {
         r.json().then((err) => setErrors(err.errors));
       }

@@ -20,7 +20,7 @@ const insideStyles = {
   transform: "translate(-50%,-50%)",
 };
 
-function Product({}) {
+function Product({ currentUser }) {
   const { product } = useParams();
   const [selectedProduct, setSelectedProduct] = useState({});
 

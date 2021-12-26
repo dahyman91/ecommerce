@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import Link from "@mui/material/Link";
-function Products() {
+import MultiActionAreaCard from "../Components/Card";
+function Products({ currentUser }) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -12,17 +12,11 @@ function Products() {
   }, []);
 
   return (
-    <ul style={{ paddingTop: "75px" }}>
+    <div style={{}}>
       {products.map((product) => {
-        return (
-          <li key={product.id}>
-            <Link href={`/products/${product.id}`} variant="body2">
-              {product.name}
-            </Link>
-          </li>
-        );
+        return <MultiActionAreaCard product={product} />;
       })}
-    </ul>
+    </div>
   );
 }
 

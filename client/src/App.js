@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import LogIn from "./Pages/Login";
 import SignUp from "./Pages/Signup";
+import Home from "./Pages/Home";
 import Product from "./Pages/Product";
 import Products from "./Pages/Products";
 import Navbar from "../src/Components/Navbar";
@@ -13,9 +14,12 @@ function App() {
   const [selectedId, setSelectedId] = useState(null);
 
   useEffect(() => {
-    fetch("/auth").then((res) =>
-      res.json().then((user) => setCurrentUser(user))
-    );
+    // auto-login
+    fetch("/me").then((r) => {
+      if (r.ok) {
+        r.json().then((user) => setCurrentUser(user));
+      }
+    });
   }, []);
 
   if (!currentUser) return <LogIn setCurrentUser={setCurrentUser} />;
@@ -25,18 +29,21 @@ function App() {
       <Navbar setCurrentUser={setCurrentUser} currentUser={currentUser} />
       <Switch>
         <Route exact path="/">
-          <Redirect to="/products" />
+          <Redirect to="/products" currentUser={currentUser} />
+        </Route>
+        <Route exact path="/home">
+          <Home />
         </Route>
         <Route path="/sign-up">
-          <SignUp setCurrentUser={setCurrentUser} />
+          <SignUp currentUser={currentUser} setCurrentUser={setCurrentUser} />
         </Route>
         <Route path="/log-in">
-          <LogIn setCurrentUser={setCurrentUser} />
+          <LogIn currentUser={currentUser} setCurrentUser={setCurrentUser} />
         </Route>
         <Route exact path="/products">
-          <Products />
+          <Products currentUser={currentUser} />
         </Route>
-        <Route exact path="/products/:product">
+        <Route exact currentUser={currentUser} path="/products/:product">
           <Product />
         </Route>
       </Switch>
