@@ -12,7 +12,16 @@ function Products({ currentUser }) {
   }, []);
 
   return (
-    <div style={{}}>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(3, 1fr)",
+        gridGap: "1rem",
+        marginTop: "100px",
+        margin: "auto",
+        width: "90%",
+      }}
+    >
       {products.map((product) => {
         return <MultiActionAreaCard product={product} />;
       })}
