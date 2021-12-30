@@ -21,6 +21,7 @@ import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
+import { Avatar } from "@mui/material";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -36,6 +37,35 @@ const Search = styled("div")(({ theme }) => ({
     width: "auto",
   },
 }));
+
+function stringToColor(string) {
+  let hash = 0;
+  let i;
+
+  /* eslint-disable no-bitwise */
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let color = "#";
+
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.substr(-2);
+  }
+  /* eslint-enable no-bitwise */
+
+  return color;
+}
+
+function stringAvatar(name) {
+  return {
+    sx: {
+      bgcolor: stringToColor(name),
+    },
+    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+  };
+}
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
@@ -82,7 +112,7 @@ export default function Navbar({ currentUser }) {
     setState({ ...state, [anchor]: open });
   };
 
-  const list = (anchor) => (
+  const menu = (anchor) => (
     <Box
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
       role="presentation"
@@ -145,6 +175,11 @@ export default function Navbar({ currentUser }) {
         }}
       >
         <Toolbar>
+          <Avatar
+            {...stringAvatar(
+              `${currentUser.first_name} ${currentUser.last_name}`
+            )}
+          />
           <IconButton
             size="large"
             edge="end"
@@ -152,24 +187,22 @@ export default function Navbar({ currentUser }) {
             aria-label="open drawer"
             sx={{ mr: 2 }}
           >
-            {["right"].map((anchor) => (
-              <>
-                <MenuIcon
-                  variant="outlined"
-                  style={{ left: "5vw", top: "0px" }}
-                  onClick={toggleDrawer(anchor, true)}
-                ></MenuIcon>
-                <Drawer
-                  anchor={anchor}
-                  open={state[anchor]}
-                  onClose={toggleDrawer(anchor, false)}
-                >
-                  {list(anchor)}
-                </Drawer>
-              </>
-            ))}
+            <>
+              <MenuIcon
+                variant="outlined"
+                style={{ left: "5vw", top: "0px" }}
+                onClick={toggleDrawer("left", true)}
+              ></MenuIcon>
+              <Drawer
+                anchor={"left"}
+                open={state["left"]}
+                onClose={toggleDrawer("left", false)}
+              >
+                {menu("left")}
+              </Drawer>
+            </>
           </IconButton>
-          <Typography>{`Dan's Store: A Place to Buy Things ${currentUser.first_name}`}</Typography>
+          <Typography>{`Dan's Store: A Place to Buy Things`}</Typography>
           <Search style={{ position: "absolute", right: "100px" }}>
             <SearchIconWrapper>
               <SearchIcon />
@@ -187,7 +220,16 @@ export default function Navbar({ currentUser }) {
             sx={{ mr: 2 }}
             style={{ position: "absolute", right: "20px" }}
           >
-            <AddShoppingCartIcon />
+            <AddShoppingCartIcon
+              onClick={toggleDrawer("right", true)}
+            ></AddShoppingCartIcon>
+            <Drawer
+              anchor={"right"}
+              open={state["right"]}
+              onClose={toggleDrawer("right", false)}
+            >
+              {menu("right")}
+            </Drawer>
           </IconButton>
         </Toolbar>
       </AppBar>

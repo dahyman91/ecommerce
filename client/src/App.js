@@ -7,11 +7,20 @@ import Home from "./Pages/Home";
 import Product from "./Pages/Product";
 import Products from "./Pages/Products";
 import Navbar from "../src/Components/Navbar";
+import Cart from "./Pages/Cart";
+
 import "./App.css";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetch("/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data));
+  }, []);
 
   useEffect(() => {
     // auto-login
@@ -41,10 +50,13 @@ function App() {
           <LogIn currentUser={currentUser} setCurrentUser={setCurrentUser} />
         </Route>
         <Route exact path="/products">
-          <Products currentUser={currentUser} />
+          <Products products={products} currentUser={currentUser} />
         </Route>
         <Route exact currentUser={currentUser} path="/products/:product">
           <Product />
+        </Route>
+        <Route exact path="/cart">
+          <Cart products={products} currentUser={currentUser} />
         </Route>
       </Switch>
     </div>

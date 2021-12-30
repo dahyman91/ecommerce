@@ -6,7 +6,21 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 
-export default function MultiActionAreaCard({ product }) {
+export default function MultiActionAreaCard({ product, currentUser }) {
+  function handleAddToCart() {
+    const instance = {
+      user_id: currentUser.id,
+      product_id: product.id,
+      quantity: 1,
+    };
+    fetch("/product_instances", {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(instance),
+    });
+  }
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardActionArea>
@@ -28,8 +42,12 @@ export default function MultiActionAreaCard({ product }) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button onClick={handleAddToCart} size="small" color="primary">
           Add To Cart
+        </Button>
+
+        <Button href={`/products/${product.id}`} size="small" color="primary">
+          Learn More
         </Button>
       </CardActions>
     </Card>
