@@ -62,7 +62,6 @@ function App() {
     });
     setCartTotal(total);
   }, [cartItems, getProductDetails]);
-  console.log(cartTotal);
 
   function updateCart(instance) {
     setCartItems([instance, ...cartItems]);

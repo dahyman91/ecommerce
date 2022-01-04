@@ -16,9 +16,6 @@ export default function CartTable({
   getProductDetails,
   handleDelete,
 }) {
-  function handleDelete(e, item) {
-    console.log(item.id);
-  }
   return (
     <TableContainer
       style={{
@@ -38,9 +35,7 @@ export default function CartTable({
         </TableHead>
         <TableBody>
           {cartItems.map((item) => {
-            console.log(item.id);
             let product = getProductDetails(item.product_id);
-            console.log(product);
             return (
               <TableRow>
                 <TableCell component="th" scope="row">
@@ -54,13 +49,20 @@ export default function CartTable({
                         method: "DELETE",
                       }).then((r) => {
                         if (r.ok) {
-                          console.log("deleted");
-                          // setCartItems(
-                          //   cartItems.filter((id) => id !== item.id)
-                          // );
+                          let updatedCart = cartItems.filter(
+                            (cartItem) => cartItem.id !== item.id
+                          );
+                          setCartItems(updatedCart);
+
+                          // setCartItems(updatedCart);
+                          // cartItems.map((cartItem) => console.log(cartItem.id));
+                          // console.log("item", item.id);
+
                           // handleDelete(item.id);
                         }
                       });
+
+                      console.log(cartItems);
                     }}
                     id={item.id}
                     value={item}

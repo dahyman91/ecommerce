@@ -136,12 +136,12 @@ export default function Navbar({
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      {cartItems ? (
+      {cartItems.length ? (
         cartItems.map((item) => {
           let product = getProductDetails(item.product_id);
 
           return (
-            <p>
+            <p key={product[0].id}>
               {product[0].name} {product[0].price}
             </p>
           );
