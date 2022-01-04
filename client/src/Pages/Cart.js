@@ -10,7 +10,7 @@ function Cart({
   handleDelete,
 }) {
   useEffect(() => {
-    fetch("/me").then((r) => {
+    fetch("/api/me").then((r) => {
       if (r.ok) {
         r.json().then((user) => setCartItems(user.product_instances));
       }

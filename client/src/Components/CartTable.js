@@ -50,7 +50,7 @@ export default function CartTable({
                 <TableCell>
                   <IconButton
                     onClick={() => {
-                      fetch(`/product_instances/${item.id}`, {
+                      fetch(`/api/product_instances/${item.id}`, {
                         method: "DELETE",
                       }).then((r) => {
                         if (r.ok) {

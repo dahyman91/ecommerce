@@ -1,4 +1,4 @@
-class ProductInstancesController < ApplicationController
+class Api::ProductInstancesController < ApplicationController
   def create
     product_instance = ProductInstance.create(product_params)
     render json: product_instance, status: :created

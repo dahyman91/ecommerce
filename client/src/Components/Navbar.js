@@ -121,7 +121,7 @@ export default function Navbar({
     setState({ ...state, [anchor]: open });
   };
   function handlelogout() {
-    fetch("/logout", { method: "DELETE" }).then((r) => {
+    fetch("/api/logout", { method: "DELETE" }).then((r) => {
       if (r.ok) {
         setCurrentUser(null);
         history.push("/log-in");

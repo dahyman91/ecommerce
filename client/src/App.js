@@ -24,7 +24,7 @@ function App() {
 
   useEffect(() => {
     if (currentUser) {
-      fetch("/products")
+      fetch("/api/products")
         .then((res) => res.json())
         .then((data) => setProducts(data));
     }
@@ -32,7 +32,7 @@ function App() {
 
   useEffect(() => {
     if (currentUser) {
-      fetch("/me").then((r) => {
+      fetch("/api/me").then((r) => {
         if (r.ok) {
           r.json().then((user) => setCartItems(user.product_instances));
         }
@@ -42,7 +42,7 @@ function App() {
 
   useEffect(() => {
     // auto-login
-    fetch("/me").then((r) => {
+    fetch("/api/me").then((r) => {
       if (r.ok) {
         r.json().then((user) => setCurrentUser(user));
       }

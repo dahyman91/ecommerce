@@ -27,7 +27,7 @@ function Product({ currentUser }) {
   const [selectedProduct, setSelectedProduct] = useState({});
 
   useEffect(() => {
-    fetch(`/products/${product}`)
+    fetch(`/api/products/${product}`)
       .then((res) => res.json())
       .then((data) => setSelectedProduct(data));
   }, [product]);

@@ -1,4 +1,4 @@
-class ProductsController < ApplicationController
+class Api::ProductsController < ApplicationController
   # skip_before_action :authorized, only: %i[show]
   
   def show
