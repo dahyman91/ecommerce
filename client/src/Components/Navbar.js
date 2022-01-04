@@ -139,7 +139,7 @@ export default function Navbar({
       {cartItems ? (
         cartItems.map((item) => {
           let product = getProductDetails(item.product_id);
-          console.log(product);
+
           return (
             <p>
               {product[0].name} {product[0].price}

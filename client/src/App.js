@@ -15,6 +15,12 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState([]);
+  let [cartTotal, setCartTotal] = useState(0);
+
+  function getProductDetails(id) {
+    let product = products.filter((product) => id === product.id);
+    return product;
+  }
 
   useEffect(() => {
     if (currentUser) {
@@ -43,8 +49,27 @@ function App() {
     });
   }, []);
 
+  useEffect(() => {
+    let productArr = [];
+    let total;
+    cartItems.map((item) => {
+      let product = getProductDetails(item.product_id);
+      productArr.push(product[0].price);
+      return (total = productArr.reduce(
+        (item, cartTotal) => item + cartTotal,
+        0
+      ));
+    });
+    setCartTotal(total);
+  }, [cartItems, getProductDetails]);
+  console.log(cartTotal);
+
   function updateCart(instance) {
     setCartItems([instance, ...cartItems]);
+  }
+
+  function handleDelete(id) {
+    setCartItems(cartItems.filter((item) => item !== id));
   }
 
   if (!currentUser)
@@ -143,6 +168,8 @@ function App() {
               cartItems={cartItems}
               setCartItems={setCartItems}
               currentUser={currentUser}
+              cartTotal={cartTotal}
+              handleDelete={handleDelete}
             />
           </Route>
         </Switch>

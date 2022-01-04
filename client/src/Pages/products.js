@@ -16,7 +16,6 @@ function Products({
   //     .then((data) => setProducts(data));
   // }, []);
 
-  console.log(products);
   return (
     <>
       <div style={{ height: "100px" }}></div>

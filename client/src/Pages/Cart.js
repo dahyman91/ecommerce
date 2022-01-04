@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import CartTable from "../Components/CartTable";
 
-function Cart({ currentUser, products, cartItems, setCartItems }) {
+function Cart({
+  currentUser,
+  products,
+  cartItems,
+  setCartItems,
+  cartTotal,
+  handleDelete,
+}) {
   useEffect(() => {
     fetch("/me").then((r) => {
       if (r.ok) {
@@ -15,23 +22,21 @@ function Cart({ currentUser, products, cartItems, setCartItems }) {
   }
 
   return (
-    <>
-      <ul>
-        {cartItems.length &&
-          cartItems.map((item) => {
-            let product = getProductDetails(item.product_id);
-            return (
-              <>
-                <li key={product.id}>
-                  <h1>{product[0]?.price}</h1>
-                  <h1>{product[0]?.name}</h1>
-                </li>
-              </>
-            );
-          })}
-      </ul>
-      <CartTable />
-    </>
+    <div style={{ display: "flex" }}>
+      <div>
+        <CartTable
+          getProductDetails={getProductDetails}
+          products={products}
+          cartItems={cartItems}
+          setCartItems={setCartItems}
+          handleDelete={handleDelete}
+        />
+      </div>
+      <div style={{ marginTop: "40vh", marginLeft: "35vw" }}>
+        <h1 style={{}}>Total ${cartTotal}.00</h1>
+        <h1>Checkout Button</h1>
+      </div>
+    </div>
   );
 }
 

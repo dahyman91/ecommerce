@@ -8,6 +8,12 @@ class ProductInstancesController < ApplicationController
     render json: ProductInstance.all
   end
 
+  def destroy
+    product_instance = ProductInstance.find_by(id: params[:id])
+    product_instance.destroy
+    head :no_content
+  end
+
   private
 
   def product_params
