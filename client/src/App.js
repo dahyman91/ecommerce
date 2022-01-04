@@ -144,15 +144,16 @@ function App() {
               updateCart={updateCart}
             />
           </Route>
-          <Route exact currentUser={currentUser} path="/products/:product">
+          <Route exact path="/products/:product">
             <Navbar
               setCurrentUser={setCurrentUser}
               cartItems={cartItems}
               currentUser={currentUser}
               setCartItems={setCartItems}
               products={products}
+              updateCart={updateCart}
             />
-            <Product />
+            <Product currentUser={currentUser} updateCart={updateCart} />
           </Route>
           <Route exact path="/cart">
             <Navbar

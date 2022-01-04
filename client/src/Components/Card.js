@@ -31,29 +31,40 @@ export default function MultiActionAreaCard({
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardActionArea>
-        <Link href={`/products/${product?.id}`} variant="body2">
+        <Link
+          href={`/products/${product.id}`}
+          style={{ textDecoration: "none" }}
+          variant="body2"
+        >
           <CardMedia
             component="img"
             height="140"
             image={product?.primary_image}
             alt="green iguana"
           />
+
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {product.name}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Category: {product.category}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {product.description}
+            </Typography>
+            <Typography variant="h5" textAlign="center" color="text.secondary">
+              ${product.price}
+            </Typography>
+          </CardContent>
         </Link>
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {product?.name}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {product?.description}
-          </Typography>
-        </CardContent>
       </CardActionArea>
-      <CardActions>
+      <CardActions style={{ justifyContent: "space-around" }}>
         <Button onClick={handleAddToCart} size="small" color="primary">
           Add To Cart
         </Button>
 
-        <Button href={`/products/${product?.id}`} size="small" color="primary">
+        <Button href={`/products/${product.id}`} size="small" color="primary">
           Learn More
         </Button>
       </CardActions>

@@ -53,12 +53,6 @@ export default function CartTable({
                             (cartItem) => cartItem.id !== item.id
                           );
                           setCartItems(updatedCart);
-
-                          // setCartItems(updatedCart);
-                          // cartItems.map((cartItem) => console.log(cartItem.id));
-                          // console.log("item", item.id);
-
-                          // handleDelete(item.id);
                         }
                       });
 
@@ -70,7 +64,6 @@ export default function CartTable({
                   >
                     <DeleteIcon sx={{ color: "red" }} />
                   </IconButton>
-                  {/* Button {item.id} */}
                 </TableCell>
               </TableRow>
             );

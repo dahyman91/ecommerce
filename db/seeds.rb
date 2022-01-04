@@ -10,7 +10,17 @@ puts 'Creating Users'
 puts 'Creating Products'
 
 
-
+100.times do
+  Product.create(
+    name: Faker::Book.title,
+    price: Faker::Number.decimal(l_digits: 2),
+    description: Faker::TvShows::Seinfeld.quote,
+    category: Faker::TvShows::Seinfeld.business,
+    primary_image:
+      'https://source.unsplash.com/random/?shoe',
+    secondary_image: 'https://source.unsplash.com/random/?shoe'
+  )
+end
 Product.create(
     name: Faker::Book.title,
     price: Faker::Number.decimal(l_digits: 2),

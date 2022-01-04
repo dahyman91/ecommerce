@@ -22,7 +22,7 @@ const insideStyles = {
   transform: "translate(-50%,-50%)",
 };
 
-function Product({ currentUser }) {
+function Product({ currentUser, updateCart, cartItems }) {
   const { product } = useParams();
   const [selectedProduct, setSelectedProduct] = useState({});
 
@@ -32,6 +32,21 @@ function Product({ currentUser }) {
       .then((data) => setSelectedProduct(data));
   }, [product]);
 
+  function handleAddToCart() {
+    const instance = {
+      user_id: currentUser.id,
+      product_id: selectedProduct.id,
+      quantity: 1,
+    };
+    fetch("/api/product_instances", {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(instance),
+    });
+    updateCart(instance);
+  }
   return (
     <>
       <div>
@@ -44,7 +59,11 @@ function Product({ currentUser }) {
             <div style={{ height: 500, width: "30vw" }}>
               <div>
                 <h3>{selectedProduct.name}</h3>
-                <Button style={insideStyles} variant="outlined">
+                <Button
+                  onClick={() => handleAddToCart()}
+                  style={insideStyles}
+                  variant="outlined"
+                >
                   Add {selectedProduct.name} to Cart
                 </Button>
               </div>
