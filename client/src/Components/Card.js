@@ -6,7 +6,12 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 
-export default function MultiActionAreaCard({ product, currentUser }) {
+export default function MultiActionAreaCard({
+  product,
+  currentUser,
+  cartItems,
+  updateCart,
+}) {
   function handleAddToCart() {
     const instance = {
       user_id: currentUser.id,
@@ -20,24 +25,26 @@ export default function MultiActionAreaCard({ product, currentUser }) {
       },
       body: JSON.stringify(instance),
     });
+    updateCart(instance);
+    console.log(cartItems);
   }
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardActionArea>
-        <Link href={`/products/${product.id}`} variant="body2">
+        <Link href={`/products/${product?.id}`} variant="body2">
           <CardMedia
             component="img"
             height="140"
-            image={product.primary_image}
+            image={product?.primary_image}
             alt="green iguana"
           />
         </Link>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {product.name}
+            {product?.name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {product.description}
+            {product?.description}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -46,7 +53,7 @@ export default function MultiActionAreaCard({ product, currentUser }) {
           Add To Cart
         </Button>
 
-        <Button href={`/products/${product.id}`} size="small" color="primary">
+        <Button href={`/products/${product?.id}`} size="small" color="primary">
           Learn More
         </Button>
       </CardActions>

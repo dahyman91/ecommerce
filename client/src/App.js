@@ -13,14 +13,26 @@ import "./App.css";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
-  const [selectedId, setSelectedId] = useState(null);
   const [products, setProducts] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
-    fetch("/products")
-      .then((res) => res.json())
-      .then((data) => setProducts(data));
-  }, []);
+    if (currentUser) {
+      fetch("/products")
+        .then((res) => res.json())
+        .then((data) => setProducts(data));
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
+    if (currentUser) {
+      fetch("/me").then((r) => {
+        if (r.ok) {
+          r.json().then((user) => setCartItems(user.product_instances));
+        }
+      });
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     // auto-login
@@ -31,36 +43,114 @@ function App() {
     });
   }, []);
 
-  if (!currentUser) return <LogIn setCurrentUser={setCurrentUser} />;
+  function updateCart(instance) {
+    setCartItems([instance, ...cartItems]);
+  }
 
-  return (
-    <div className="App">
-      <Navbar setCurrentUser={setCurrentUser} currentUser={currentUser} />
+  if (!currentUser)
+    return (
       <Switch>
-        <Route exact path="/">
-          <Redirect to="/products" currentUser={currentUser} />
-        </Route>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route path="/sign-up">
+        <Route exact path="/sign-up">
           <SignUp currentUser={currentUser} setCurrentUser={setCurrentUser} />
         </Route>
         <Route path="/log-in">
           <LogIn currentUser={currentUser} setCurrentUser={setCurrentUser} />
         </Route>
-        <Route exact path="/products">
-          <Products products={products} currentUser={currentUser} />
-        </Route>
-        <Route exact currentUser={currentUser} path="/products/:product">
-          <Product />
-        </Route>
-        <Route exact path="/cart">
-          <Cart products={products} currentUser={currentUser} />
-        </Route>
       </Switch>
-    </div>
-  );
+    );
+
+  if (currentUser)
+    return (
+      <div className="App">
+        <Switch>
+          <Route exact path="/">
+            <Navbar
+              setCurrentUser={setCurrentUser}
+              cartItems={cartItems}
+              currentUser={currentUser}
+              setCartItems={setCartItems}
+              products={products}
+            />
+            <Redirect
+              to="/products"
+              setProducts={setProducts}
+              products={products}
+              currentUser={currentUser}
+            />
+          </Route>
+          <Route exact path="/home">
+            <Navbar
+              setCurrentUser={setCurrentUser}
+              cartItems={cartItems}
+              currentUser={currentUser}
+              setCartItems={setCartItems}
+              products={products}
+            />
+            <Home />
+          </Route>
+          <Route exact path="/sign-up">
+            <SignUp
+              currentUser={currentUser}
+              cartItems={cartItems}
+              setCurrentUser={setCurrentUser}
+              setCartItems={setCartItems}
+            />
+          </Route>
+          <Route path="/log-in">
+            <LogIn
+              currentUser={currentUser}
+              cartItems={cartItems}
+              setCurrentUser={setCurrentUser}
+            />
+          </Route>
+          <Route exact path="/products">
+            <Navbar
+              setCurrentUser={setCurrentUser}
+              cartItems={cartItems}
+              currentUser={currentUser}
+              setCartItems={setCartItems}
+              products={products}
+            />
+            <Products
+              products={products}
+              currentUser={currentUser}
+              setProducts={setProducts}
+              cartItems={cartItems}
+              setCartItems={setCartItems}
+              updateCart={updateCart}
+            />
+          </Route>
+          <Route exact currentUser={currentUser} path="/products/:product">
+            <Navbar
+              setCurrentUser={setCurrentUser}
+              cartItems={cartItems}
+              currentUser={currentUser}
+              setCartItems={setCartItems}
+              products={products}
+            />
+            <Product />
+          </Route>
+          <Route exact path="/cart">
+            <Navbar
+              setCurrentUser={setCurrentUser}
+              cartItems={cartItems}
+              currentUser={currentUser}
+              setCartItems={setCartItems}
+              products={products}
+            />
+            <Cart
+              products={products}
+              cartItems={cartItems}
+              setCartItems={setCartItems}
+              currentUser={currentUser}
+            />
+          </Route>
+        </Switch>
+      </div>
+    );
 }
 
+//Higher order components
+// Remove Conditionals
+//
 export default App;

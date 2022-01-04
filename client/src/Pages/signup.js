@@ -1,10 +1,11 @@
-import * as React from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
+import { useHistory, Route, Redirect } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 
 import Box from "@mui/material/Box";
@@ -29,6 +30,15 @@ function Copyright() {
 const theme = createTheme();
 
 export default function SignUp({ setCurrentUser, currentUser }) {
+  let history = useHistory();
+  // useEffect(() => {
+  //   fetch("/logout", { method: "DELETE" }).then((r) => {
+  //     if (r.ok) {
+  //       setCurrentUser(null);
+  //     }
+  //   });
+  // }, [setCurrentUser]);
+
   const [first_name, setFirstName] = useState("");
   const [last_name, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -51,12 +61,14 @@ export default function SignUp({ setCurrentUser, currentUser }) {
       }),
     }).then((res) => {
       if (res.ok) {
+        console.log(res);
         setCurrentUser({
           first_name,
           last_name,
           email,
           password,
         });
+        history.push("/products");
       } else {
         res.json().then((e) => setErrors(Object.entries(e.error).flat()));
       }

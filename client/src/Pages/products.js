@@ -1,7 +1,22 @@
 import React, { useEffect, useState } from "react";
 
 import MultiActionAreaCard from "../Components/Card";
-function Products({ currentUser, products }) {
+
+function Products({
+  currentUser,
+  products,
+  setProducts,
+  setCartItems,
+  cartItems,
+  updateCart,
+}) {
+  // useEffect(() => {
+  //   fetch("/products")
+  //     .then((res) => res.json())
+  //     .then((data) => setProducts(data));
+  // }, []);
+
+  console.log(products);
   return (
     <>
       <div style={{ height: "100px" }}></div>
@@ -14,11 +29,21 @@ function Products({ currentUser, products }) {
           width: "90%",
         }}
       >
-        {products.map((product) => {
-          return (
-            <MultiActionAreaCard currentUser={currentUser} product={product} />
-          );
-        })}
+        {products &&
+          products.map((product) => {
+            return (
+              <MultiActionAreaCard
+                key={product.id}
+                currentUser={currentUser}
+                product={product}
+                products={products}
+                setProducts={setProducts}
+                cartItems={cartItems}
+                setCartItems={setCartItems}
+                updateCart={updateCart}
+              />
+            );
+          })}
       </div>
     </>
   );

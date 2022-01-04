@@ -117,7 +117,7 @@ const useStyles = makeStyles(({ palette, breakpoints, spacing }) => ({
     top: 20,
     left: "20%",
     height: "40%",
-    fontSize: 40,
+    fontSize: 400,
     zIndex: 1,
     background: "linear-gradient(0deg, rgba(255,255,255,0) 0%, #9c9c9c 100%)",
     [breakpoints.up("sm")]: {
@@ -153,7 +153,9 @@ const useStyles = makeStyles(({ palette, breakpoints, spacing }) => ({
 
 const Header = () => {
   const classes = useStyles();
+  console.log(classes);
   const arrowStyles = useArrowDarkButtonStyles();
+  console.log(arrowStyles);
   const createStyle = (slideIndex, fineIndex) => {
     const diff = slideIndex - fineIndex;
     if (Math.abs(diff) > 1) return {};

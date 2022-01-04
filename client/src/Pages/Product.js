@@ -8,8 +8,10 @@ import Button from "@mui/material/Button";
 const styles = {
   fontFamily: "sans-serif",
   textAlign: "center",
-  width: "80%",
-  margin: "auto",
+  marginTop: "15vh",
+  width: "100%",
+  marginLeft: "15vw",
+  display: "flex",
 };
 const insideStyles = {
   background: "white",
@@ -30,23 +32,43 @@ function Product({ currentUser }) {
       .then((data) => setSelectedProduct(data));
   }, [product]);
 
-  console.log(selectedProduct);
   return (
     <>
-      <div style={styles}>
-        <Parallax bgImage={selectedProduct.primary_image} strength={500}>
-          <div style={{ height: 500 }}>
-            <div>
-              <h3>{product}</h3>
-              <Button style={insideStyles} variant="outlined">
-                Buy {product}
-              </Button>
+      <div>
+        <div style={styles}>
+          <Parallax
+            bgImage={selectedProduct.primary_image}
+            strength={500}
+            style={{ borderRadius: "10%" }}
+          >
+            <div style={{ height: 500, width: "30vw" }}>
+              <div>
+                <h3>{selectedProduct.name}</h3>
+                <Button style={insideStyles} variant="outlined">
+                  Add {selectedProduct.name} to Cart
+                </Button>
+              </div>
             </div>
+          </Parallax>
+          <div style={{ marginLeft: "10vw", marginTop: "10%", width: "20vw" }}>
+            <h2>{selectedProduct.name}</h2>
+            <p style={{ marginTop: "30px" }}>Description:</p>
+            <p style={{}}>{selectedProduct.description}</p>
+            <p style={{ marginTop: "10px" }}>Price:</p>
+            <p style={{}}>${selectedProduct.price}</p>
           </div>
-        </Parallax>
+        </div>
+      </div>
 
-        <h2>{product}</h2>
-
+      <div
+        style={{
+          fontFamily: "sans-serif",
+          textAlign: "center",
+          marginTop: "10vh",
+          width: "auto",
+          height: "100vh",
+        }}
+      >
         <Parallax
           bgImage={[photo]}
           strength={200}
@@ -60,15 +82,15 @@ function Product({ currentUser }) {
                   top: "50%",
                   borderRadius: "50%",
                   transform: "translate(-50%,-50%)",
-                  width: percentage * 700,
-                  height: percentage * 700,
+                  width: "20%",
+                  height: 100,
                 }}
               />
             </div>
           )}
         >
           <div style={{ height: 500 }}>
-            <div style={insideStyles}>renderProp</div>
+            <div style={insideStyles}>Back To Store</div>
           </div>
         </Parallax>
 

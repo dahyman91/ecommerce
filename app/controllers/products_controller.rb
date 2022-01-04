@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  skip_before_action :authorized, only: %i[index show]
+  # skip_before_action :authorized, only: %i[show]
   
   def show
     product = Product.find(params[:id])
@@ -9,4 +9,5 @@ class ProductsController < ApplicationController
   def index
     render json: Product.all, status: :ok
   end
+
 end

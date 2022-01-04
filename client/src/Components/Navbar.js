@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useHistory } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -6,8 +7,6 @@ import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import HomeIcon from "@mui/icons-material/Home";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -94,8 +93,18 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   justifyContent: "center",
 }));
 
-export default function Navbar({ currentUser }) {
-  console.log(currentUser);
+export default function Navbar({
+  currentUser,
+  setCurrentUser,
+  cartItems,
+  products,
+}) {
+  let showNav = currentUser ? "block" : "hidden";
+  function getProductDetails(id) {
+    let product = products.filter((product) => id === product.id);
+    return product;
+  }
+  let history = useHistory();
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -111,6 +120,37 @@ export default function Navbar({ currentUser }) {
     }
     setState({ ...state, [anchor]: open });
   };
+  function handlelogout() {
+    fetch("/logout", { method: "DELETE" }).then((r) => {
+      if (r.ok) {
+        setCurrentUser(null);
+        history.push("/log-in");
+      }
+    });
+  }
+
+  const cartDisplay = (anchor) => (
+    <Box
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+      role="presentation"
+      onClick={toggleDrawer(anchor, false)}
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+      {cartItems ? (
+        cartItems.map((item) => {
+          let product = getProductDetails(item.product_id);
+          console.log(product);
+          return (
+            <p>
+              {product[0].name} {product[0].price}
+            </p>
+          );
+        })
+      ) : (
+        <h1>nothing in cart</h1>
+      )}
+    </Box>
+  );
 
   const menu = (anchor) => (
     <Box
@@ -141,19 +181,19 @@ export default function Navbar({ currentUser }) {
       </List>
       <Divider />
       <List>
-        <ListItem button component={Link} to="/log-in" key="Profile">
-          <ListItemIcon>
-            <AccountCircleIcon />
-          </ListItemIcon>
-          <ListItemText primary="Profile" />
-        </ListItem>
-        <ListItem button component={Link} to="/log-in" key="Sign Out">
+        <ListItem button onClick={handlelogout} key="Sign Out">
           <ListItemIcon>
             <LogoutIcon />
           </ListItemIcon>
           <ListItemText primary="Sign Out" />
         </ListItem>
-        <ListItem button component={Link} to="/sign-up" key="Sign Up">
+        <ListItem
+          button
+          onClick={handlelogout}
+          // component={Link}
+          // to="/sign-up"
+          key="Sign Up"
+        >
           <ListItemIcon>
             <LogoutIcon />
           </ListItemIcon>
@@ -167,11 +207,9 @@ export default function Navbar({ currentUser }) {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
         style={{
-          // position: "fixed",
-          // backgroundColor: "green",
           width: "100vw",
           zIndex: "10",
-          // height: "3vh",
+          display: { showNav },
         }}
       >
         <Toolbar>
@@ -186,6 +224,8 @@ export default function Navbar({ currentUser }) {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            style={{ padding: "20px" }}
+            // onClick={toggleDrawer("left", true)}
           >
             <>
               <MenuIcon
@@ -220,15 +260,15 @@ export default function Navbar({ currentUser }) {
             sx={{ mr: 2 }}
             style={{ position: "absolute", right: "20px" }}
           >
-            <AddShoppingCartIcon
+            <ShoppingCartIcon
               onClick={toggleDrawer("right", true)}
-            ></AddShoppingCartIcon>
+            ></ShoppingCartIcon>
             <Drawer
               anchor={"right"}
               open={state["right"]}
               onClose={toggleDrawer("right", false)}
             >
-              {menu("right")}
+              {cartDisplay("right")}
             </Drawer>
           </IconButton>
         </Toolbar>

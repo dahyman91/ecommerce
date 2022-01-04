@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Products from "./Products";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -36,6 +36,7 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function LogIn({ setCurrentUser, currentUser }) {
+  let history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
@@ -55,7 +56,7 @@ export default function LogIn({ setCurrentUser, currentUser }) {
       if (r.ok) {
         r.json().then((user) => {
           setCurrentUser(user);
-          window.location.href = "/";
+          history.push("/products");
         });
       } else {
         r.json().then((err) => setErrors(err.errors));
@@ -73,7 +74,7 @@ export default function LogIn({ setCurrentUser, currentUser }) {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: "url(https://source.unsplash.com/random)",
+            backgroundImage: "url(https://source.unsplash.com/random/?shoe)",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -148,7 +149,7 @@ export default function LogIn({ setCurrentUser, currentUser }) {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="/sign-up" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
