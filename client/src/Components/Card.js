@@ -26,8 +26,7 @@ export default function MultiActionAreaCard({
         "content-type": "application/json",
       },
       body: JSON.stringify(instance),
-    });
-    updateCart(instance);
+    }).then(() => updateCart(instance));
   }
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -68,7 +67,7 @@ export default function MultiActionAreaCard({
         </Link>
       </CardActionArea>
       <CardActions style={{ justifyContent: "space-around" }}>
-        <Button onClick={handleAddToCart} size="small" color="primary">
+        <Button onClick={() => handleAddToCart()} size="small" color="primary">
           Add To Cart
         </Button>
 

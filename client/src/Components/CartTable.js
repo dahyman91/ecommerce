@@ -14,8 +14,25 @@ export default function CartTable({
   setCartItems,
   products,
   getProductDetails,
-  handleDelete,
+  updateCart,
+  currentUser,
 }) {
+  function handleAddToCart(product) {
+    const instance = {
+      user_id: currentUser.id,
+      product_id: product.id,
+      quantity: 1,
+    };
+    fetch("/api/product_instances", {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(instance),
+    }).then(() => updateCart(instance));
+  }
+  console.log();
+
   return (
     <TableContainer
       style={{
@@ -30,48 +47,57 @@ export default function CartTable({
           <TableRow>
             <TableCell>Product</TableCell>
             <TableCell>Price</TableCell>
+            <TableCell>Quantity</TableCell>
+            <TableCell>Total</TableCell>
             <TableCell>Remove</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {cartItems.map((item) => {
-            let product = getProductDetails(item.product_id);
-            return (
-              <>
-                {product[0] && (
-                  <TableRow>
-                    <TableCell component="th" scope="row">
-                      {product[0].name}
-                    </TableCell>
-                    <TableCell>{product[0].price}</TableCell>
-                    <TableCell>
-                      <IconButton
-                        onClick={() => {
-                          fetch(`/api/product_instances/${item.id}`, {
-                            method: "DELETE",
-                          }).then((r) => {
-                            if (r.ok) {
-                              let updatedCart = cartItems.filter(
-                                (cartItem) => cartItem.id !== item.id
-                              );
-                              setCartItems(updatedCart);
-                            }
-                          });
-
-                          console.log(cartItems);
-                        }}
-                        id={item.id}
-                        value={item}
-                        aria-label="delete"
-                      >
-                        <DeleteIcon sx={{ color: "red" }} />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                )}
-              </>
-            );
-          })}
+          {cartItems
+            .sort((a, b) => a.product_id - b.product_id)
+            .map((item) => {
+              let product = getProductDetails(item.product_id);
+              return (
+                <>
+                  {product[0] && (
+                    <TableRow>
+                      <TableCell component="th" scope="row">
+                        {product[0].name}
+                      </TableCell>
+                      <TableCell>{product[0].price}</TableCell>
+                      <TableCell>
+                        {item.quantity}
+                        <button onClick={() => handleAddToCart(product[0])}>
+                          add
+                        </button>
+                      </TableCell>
+                      <TableCell>{product[0].price * item.quantity}</TableCell>
+                      <TableCell>
+                        <IconButton
+                          onClick={() => {
+                            fetch(`/api/product_instances/${item.id}`, {
+                              method: "DELETE",
+                            }).then((r) => {
+                              if (r.ok) {
+                                let updatedCart = cartItems.filter(
+                                  (cartItem) => cartItem.id !== item.id
+                                );
+                                setCartItems(updatedCart);
+                              }
+                            });
+                          }}
+                          id={item.id}
+                          value={item}
+                          aria-label="delete"
+                        >
+                          <DeleteIcon sx={{ color: "red" }} />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </>
+              );
+            })}
         </TableBody>
       </Table>
     </TableContainer>

@@ -53,12 +53,13 @@ function App() {
     });
   }, []);
 
+  // Get Cart Total
   useEffect(() => {
     let productArr = [];
     let total;
     cartItems.map((item) => {
       let product = getProductDetails(item.product_id);
-      productArr.push(product[0]?.price);
+      productArr.push(product[0]?.price * item.quantity);
       return (total = productArr.reduce(
         (item, cartTotal) => item + cartTotal,
         0
@@ -68,7 +69,21 @@ function App() {
   }, [cartItems, getProductDetails]);
 
   function updateCart(instance) {
-    setCartItems([instance, ...cartItems]);
+    let action;
+    cartItems.map((cartItems) => {
+      if (cartItems.product_id === instance.product_id) {
+        return (action = "fetch");
+      }
+    });
+    if (action === "fetch") {
+      fetch("/api/me").then((r) => {
+        if (r.ok) {
+          r.json().then((user) => setCartItems(user.product_instances));
+        }
+      });
+    } else {
+      setCartItems([...cartItems, instance]);
+    }
   }
 
   function handleDelete(id) {
@@ -106,6 +121,7 @@ function App() {
               currentUser={currentUser}
               setCartItems={setCartItems}
               products={products}
+              cartTotal={cartTotal}
             />
             <Redirect
               to="/products"
@@ -121,6 +137,7 @@ function App() {
               currentUser={currentUser}
               setCartItems={setCartItems}
               products={products}
+              cartTotal={cartTotal}
             />
             <Home />
           </Route>
@@ -146,6 +163,7 @@ function App() {
               currentUser={currentUser}
               setCartItems={setCartItems}
               products={products}
+              cartTotal={cartTotal}
             />
             <Products
               products={products}
@@ -164,6 +182,7 @@ function App() {
               setCartItems={setCartItems}
               products={products}
               updateCart={updateCart}
+              cartTotal={cartTotal}
             />
             <Product
               currentUser={currentUser}
@@ -180,6 +199,7 @@ function App() {
               currentUser={currentUser}
               setCartItems={setCartItems}
               products={products}
+              cartTotal={cartTotal}
             />
             <Cart
               products={products}
@@ -188,6 +208,7 @@ function App() {
               currentUser={currentUser}
               cartTotal={cartTotal}
               handleDelete={handleDelete}
+              updateCart={updateCart}
             />
           </Route>
         </Switch>

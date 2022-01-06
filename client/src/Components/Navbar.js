@@ -98,6 +98,7 @@ export default function Navbar({
   setCurrentUser,
   cartItems,
   products,
+  cartTotal,
 }) {
   let showNav = currentUser ? "block" : "hidden";
   function getProductDetails(id) {
@@ -144,7 +145,7 @@ export default function Navbar({
             <>
               {product[0] && (
                 <p key={product[0].id}>
-                  {product[0].name} {product[0].price} {product[0].quantity}
+                  {product[0].name} {product[0].price} {item.quantity}
                 </p>
               )}
             </>
@@ -246,7 +247,7 @@ export default function Navbar({
               </Drawer>
             </>
           </IconButton>
-          <Typography>{`Dan's Store: A Place to Buy Things`}</Typography>
+          <Typography>Dan's Store: A Place to Buy Things</Typography>
           <Search style={{ position: "absolute", right: "100px" }}>
             <SearchIconWrapper>
               <SearchIcon />
@@ -264,9 +265,11 @@ export default function Navbar({
             sx={{ mr: 2 }}
             style={{ position: "absolute", right: "20px" }}
           >
+            {cartTotal ? `$${cartTotal}` : ""}
             <ShoppingCartIcon
               onClick={toggleDrawer("right", true)}
             ></ShoppingCartIcon>
+
             <Drawer
               anchor={"right"}
               open={state["right"]}

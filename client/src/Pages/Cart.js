@@ -8,6 +8,7 @@ function Cart({
   setCartItems,
   cartTotal,
   handleDelete,
+  updateCart,
 }) {
   useEffect(() => {
     fetch("/api/me").then((r) => {
@@ -31,6 +32,8 @@ function Cart({
           cartItems={cartItems}
           setCartItems={setCartItems}
           handleDelete={handleDelete}
+          updateCart={updateCart}
+          currentUser={currentUser}
         />
       </div>
       <div style={{ marginTop: "40vh", marginLeft: "35vw" }}>
