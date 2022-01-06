@@ -78,6 +78,14 @@ function App() {
   if (!currentUser)
     return (
       <Switch>
+        <Route exact path="/">
+          <Redirect
+            to="/log-in"
+            setProducts={setProducts}
+            products={products}
+            currentUser={currentUser}
+          />
+        </Route>
         <Route exact path="/sign-up">
           <SignUp currentUser={currentUser} setCurrentUser={setCurrentUser} />
         </Route>

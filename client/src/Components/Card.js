@@ -1,10 +1,11 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import Link from "@mui/material/Link";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
+import Rating from "@mui/material/Rating";
 
 export default function MultiActionAreaCard({
   product,
@@ -12,6 +13,7 @@ export default function MultiActionAreaCard({
   cartItems,
   updateCart,
 }) {
+  const [value, setValue] = useState(0);
   function handleAddToCart() {
     const instance = {
       user_id: currentUser.id,
@@ -26,7 +28,6 @@ export default function MultiActionAreaCard({
       body: JSON.stringify(instance),
     });
     updateCart(instance);
-    console.log(cartItems);
   }
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -43,7 +44,14 @@ export default function MultiActionAreaCard({
             alt="green iguana"
           />
 
-          <CardContent>
+          <CardContent style={{ textAlign: "center" }}>
+            <Rating
+              name="simple-controlled"
+              value={value}
+              onChange={(event, newValue) => {
+                setValue(newValue);
+              }}
+            />
             <Typography gutterBottom variant="h5" component="div">
               {product.name}
             </Typography>
