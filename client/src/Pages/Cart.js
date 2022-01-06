@@ -16,6 +16,7 @@ function Cart({
       }
     });
   }, [currentUser, setCartItems]);
+
   function getProductDetails(id) {
     let product = products.filter((product) => id === product.id);
     return product;

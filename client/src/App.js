@@ -26,25 +26,29 @@ function App() {
     if (currentUser) {
       fetch("/api/products")
         .then((res) => res.json())
-        .then((data) => setProducts(data));
+        .then((data) => {
+          setProducts(data);
+        });
     }
   }, [currentUser]);
 
   useEffect(() => {
-    if (currentUser) {
+    if (currentUser && products) {
       fetch("/api/me").then((r) => {
         if (r.ok) {
           r.json().then((user) => setCartItems(user.product_instances));
         }
       });
     }
-  }, [currentUser]);
+  }, []);
 
   useEffect(() => {
     // auto-login
     fetch("/api/me").then((r) => {
       if (r.ok) {
-        r.json().then((user) => setCurrentUser(user));
+        r.json().then((user) => {
+          setCurrentUser(user);
+        });
       }
     });
   }, []);
@@ -54,7 +58,7 @@ function App() {
     let total;
     cartItems.map((item) => {
       let product = getProductDetails(item.product_id);
-      productArr.push(product[0].price);
+      productArr.push(product[0]?.price);
       return (total = productArr.reduce(
         (item, cartTotal) => item + cartTotal,
         0
@@ -153,7 +157,13 @@ function App() {
               products={products}
               updateCart={updateCart}
             />
-            <Product currentUser={currentUser} updateCart={updateCart} />
+            <Product
+              currentUser={currentUser}
+              updateCart={updateCart}
+              setProducts={setProducts}
+              products={products}
+              setCartItems={setCartItems}
+            />
           </Route>
           <Route exact path="/cart">
             <Navbar

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 
 import MultiActionAreaCard from "../Components/Card";
@@ -21,7 +21,16 @@ function Products({
   const [nameSorted, setNameSorted] = useState("no");
   const [categorySorted, setCategorySorted] = useState("no");
 
-  console.log(products);
+  useEffect(() => {
+    if (currentUser && products) {
+      fetch("/api/me").then((r) => {
+        if (r.ok) {
+          r.json().then((user) => setCartItems(user.product_instances));
+        }
+      });
+    }
+  }, []);
+
   function handleSortPrice() {
     if (priceSorted === "no") {
       const sorted = products.sort((a, b) => a.price - b.price);

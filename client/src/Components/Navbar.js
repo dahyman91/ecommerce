@@ -101,7 +101,7 @@ export default function Navbar({
 }) {
   let showNav = currentUser ? "block" : "hidden";
   function getProductDetails(id) {
-    let product = products.filter((product) => id === product.id);
+    let product = products && products.filter((product) => id === product.id);
     return product;
   }
   let history = useHistory();
@@ -141,9 +141,13 @@ export default function Navbar({
           let product = getProductDetails(item.product_id);
 
           return (
-            <p key={product[0].id}>
-              {product[0].name} {product[0].price}
-            </p>
+            <>
+              {product[0] && (
+                <p key={product[0].id}>
+                  {product[0].name} {product[0].price} {product[0].quantity}
+                </p>
+              )}
+            </>
           );
         })
       ) : (

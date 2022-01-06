@@ -22,7 +22,7 @@ const insideStyles = {
   transform: "translate(-50%,-50%)",
 };
 
-function Product({ currentUser, updateCart, cartItems }) {
+function Product({ currentUser, updateCart, setCartItems, products }) {
   const { product } = useParams();
   const [selectedProduct, setSelectedProduct] = useState({});
 
@@ -31,6 +31,16 @@ function Product({ currentUser, updateCart, cartItems }) {
       .then((res) => res.json())
       .then((data) => setSelectedProduct(data));
   }, [product]);
+
+  useEffect(() => {
+    if (currentUser && products) {
+      fetch("/api/me").then((r) => {
+        if (r.ok) {
+          r.json().then((user) => setCartItems(user.product_instances));
+        }
+      });
+    }
+  }, []);
 
   function handleAddToCart() {
     const instance = {

@@ -37,35 +37,39 @@ export default function CartTable({
           {cartItems.map((item) => {
             let product = getProductDetails(item.product_id);
             return (
-              <TableRow>
-                <TableCell component="th" scope="row">
-                  {product[0].name}
-                </TableCell>
-                <TableCell>{product[0].price}</TableCell>
-                <TableCell>
-                  <IconButton
-                    onClick={() => {
-                      fetch(`/api/product_instances/${item.id}`, {
-                        method: "DELETE",
-                      }).then((r) => {
-                        if (r.ok) {
-                          let updatedCart = cartItems.filter(
-                            (cartItem) => cartItem.id !== item.id
-                          );
-                          setCartItems(updatedCart);
-                        }
-                      });
+              <>
+                {product[0] && (
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      {product[0].name}
+                    </TableCell>
+                    <TableCell>{product[0].price}</TableCell>
+                    <TableCell>
+                      <IconButton
+                        onClick={() => {
+                          fetch(`/api/product_instances/${item.id}`, {
+                            method: "DELETE",
+                          }).then((r) => {
+                            if (r.ok) {
+                              let updatedCart = cartItems.filter(
+                                (cartItem) => cartItem.id !== item.id
+                              );
+                              setCartItems(updatedCart);
+                            }
+                          });
 
-                      console.log(cartItems);
-                    }}
-                    id={item.id}
-                    value={item}
-                    aria-label="delete"
-                  >
-                    <DeleteIcon sx={{ color: "red" }} />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
+                          console.log(cartItems);
+                        }}
+                        id={item.id}
+                        value={item}
+                        aria-label="delete"
+                      >
+                        <DeleteIcon sx={{ color: "red" }} />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </>
             );
           })}
         </TableBody>
