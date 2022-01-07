@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import CartTable from "../Components/CartTable";
+import { Button } from "@mui/material";
+import { useHistory } from "react-router-dom";
 
 function Cart({
   currentUser,
@@ -23,6 +25,8 @@ function Cart({
     return product;
   }
 
+  let history = useHistory();
+
   return (
     <div style={{ display: "flex" }}>
       <div
@@ -30,9 +34,11 @@ function Cart({
           textAlign: "center",
           marginTop: "80px",
           width: 700,
-          marginLeft: "10vw",
+          margin: "80px auto",
         }}
       >
+        {cartTotal ? <h1 style={{}}>Total ${cartTotal}.00</h1> : null}
+
         <CartTable
           getProductDetails={getProductDetails}
           products={products}
@@ -42,10 +48,13 @@ function Cart({
           updateCart={updateCart}
           currentUser={currentUser}
         />
-      </div>
-      <div style={{ marginTop: "40vh", marginLeft: "35vw" }}>
-        <h1 style={{}}>Total ${cartTotal}.00</h1>
-        <h1>Checkout Button</h1>
+        <Button
+          style={{ margin: "20px" }}
+          variant="outlined"
+          onClick={() => history.push("/checkout")}
+        >
+          Checkout
+        </Button>
       </div>
     </div>
   );

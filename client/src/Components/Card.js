@@ -32,6 +32,13 @@ export default function MultiActionAreaCard({
     }).then(setReviewed(true));
   }
 
+  function truncateString(str, num) {
+    if (str.length <= num) {
+      return str;
+    }
+    return str.slice(0, num) + "...";
+  }
+
   function handleAddToCart() {
     const instance = {
       user_id: currentUser.id,
@@ -69,13 +76,13 @@ export default function MultiActionAreaCard({
               onChange={(e) => handleReview(e, value)}
             />
             <Typography gutterBottom variant="h5" component="div">
-              {product.name}
+              {truncateString(product.name, 19)}
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Category: {product.category}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {product.description}
+              {truncateString(product.description, 50)}
             </Typography>
             <Typography variant="h5" textAlign="center" color="text.secondary">
               ${product.price}

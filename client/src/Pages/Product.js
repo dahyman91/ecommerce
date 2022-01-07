@@ -26,7 +26,6 @@ const insideStyles = {
 function Product({ currentUser, updateCart, setCartItems, products, users }) {
   const { product } = useParams();
   const [selectedProduct, setSelectedProduct] = useState({});
-  console.log(selectedProduct.average_review);
 
   useEffect(() => {
     fetch(`/api/products/${product}`)
@@ -89,13 +88,17 @@ function Product({ currentUser, updateCart, setCartItems, products, users }) {
           <div style={{ marginLeft: "10vw", marginTop: "10%", width: "20vw" }}>
             <h2>{selectedProduct.name}</h2>
 
-            {selectedProduct.average_review && (
+            {selectedProduct.average_review > 0 ? (
               <Rating
                 name="simple-controlled"
                 precision={0.5}
                 value={selectedProduct.average_review}
                 readOnly
               />
+            ) : (
+              <>
+                <Rating value={0} readOnly /> <p>No Reviews Yet</p>
+              </>
             )}
             <p style={{ marginTop: "30px" }}>Description:</p>
             <p style={{}}>{selectedProduct.description}</p>

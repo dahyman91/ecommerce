@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useHistory } from "react-router-dom";
+import ComboBox from "./ComboBox";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -24,20 +25,20 @@ import { Avatar } from "@mui/material";
 import CartTable from "./CartTable";
 import { Button } from "@mui/material";
 
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  width: "50%",
-  [theme.breakpoints.up("md")]: {
-    marginLeft: theme.spacing(2),
-    width: "auto",
-  },
-}));
+// const Search = styled("div")(({ theme }) => ({
+//   position: "relative",
+//   borderRadius: theme.shape.borderRadius,
+//   backgroundColor: alpha(theme.palette.common.white, 0.15),
+//   "&:hover": {
+//     backgroundColor: alpha(theme.palette.common.white, 0.25),
+//   },
+//   marginLeft: 0,
+//   width: "50%",
+//   [theme.breakpoints.up("md")]: {
+//     marginLeft: theme.spacing(2),
+//     width: "auto",
+//   },
+// }));
 
 function stringToColor(string) {
   let hash = 0;
@@ -85,15 +86,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
+// const SearchIconWrapper = styled("div")(({ theme }) => ({
+//   padding: theme.spacing(0, 2),
+//   height: "100%",
+//   position: "absolute",
+//   pointerEvents: "none",
+//   display: "flex",
+//   alignItems: "center",
+//   justifyContent: "center",
+// }));
 
 export default function Navbar({
   currentUser,
@@ -139,8 +140,13 @@ export default function Navbar({
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 700 }}
       role="presentation"
     >
-      <Typography textAlign="center">
-        {currentUser.first_name}'s Cart: {cartTotal}
+      <Typography
+        textAlign="center"
+        style={{ fontSize: "20px", padding: "10px" }}
+      >
+        {cartTotal
+          ? `${currentUser.first_name}'s Cart: Total ${cartTotal}`
+          : `${currentUser.first_name}'s Cart: Empty`}
       </Typography>
       <CartTable
         cartItems={cartItems}
@@ -156,8 +162,20 @@ export default function Navbar({
           left: "0px",
         }}
       />
-      <Button onClick={() => history.push("/checkout")}>Checkout</Button>
-      <Button onClick={() => history.push("/cart")}>Open Cart</Button>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-around",
+          marginTop: "20px",
+        }}
+      >
+        <Button variant="outlined" onClick={() => history.push("/checkout")}>
+          Checkout
+        </Button>
+        <Button variant="outlined" onClick={() => history.push("/cart")}>
+          Open Cart
+        </Button>
+      </div>
     </Box>
   );
 
@@ -252,7 +270,11 @@ export default function Navbar({
             </>
           </IconButton>
           <Typography>Dan's Store: A Place to Buy Things</Typography>
-          <Search style={{ position: "absolute", right: "170px" }}>
+          <ComboBox
+            products={products}
+            style={{ position: "absolute", right: "1px" }}
+          />
+          {/* <Search style={{ position: "absolute", right: "170px" }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -260,7 +282,7 @@ export default function Navbar({
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
             />
-          </Search>
+          </Search> */}
           <IconButton
             size="large"
             edge="end"
