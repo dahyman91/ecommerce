@@ -7,12 +7,14 @@ import Home from "./Pages/Home";
 import Product from "./Pages/Product";
 import Products from "./Pages/Products";
 import Navbar from "../src/Components/Navbar";
+import Checkout from "./Pages/Checkout";
 import Cart from "./Pages/Cart";
 
 import "./App.css";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
+  const [users, setUsers] = useState([]);
   const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   let [cartTotal, setCartTotal] = useState(0);
@@ -40,6 +42,12 @@ function App() {
         }
       });
     }
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/users")
+      .then((r) => r.json())
+      .then((data) => setUsers(data));
   }, []);
 
   useEffect(() => {
@@ -122,6 +130,7 @@ function App() {
               setCartItems={setCartItems}
               products={products}
               cartTotal={cartTotal}
+              updateCart={updateCart}
             />
             <Redirect
               to="/products"
@@ -138,6 +147,7 @@ function App() {
               setCartItems={setCartItems}
               products={products}
               cartTotal={cartTotal}
+              updateCart={updateCart}
             />
             <Home />
           </Route>
@@ -164,6 +174,7 @@ function App() {
               setCartItems={setCartItems}
               products={products}
               cartTotal={cartTotal}
+              updateCart={updateCart}
             />
             <Products
               products={products}
@@ -190,6 +201,7 @@ function App() {
               setProducts={setProducts}
               products={products}
               setCartItems={setCartItems}
+              users={users}
             />
           </Route>
           <Route exact path="/cart">
@@ -200,6 +212,7 @@ function App() {
               setCartItems={setCartItems}
               products={products}
               cartTotal={cartTotal}
+              updateCart={updateCart}
             />
             <Cart
               products={products}
@@ -210,6 +223,9 @@ function App() {
               handleDelete={handleDelete}
               updateCart={updateCart}
             />
+          </Route>
+          <Route exact path="/checkout">
+            <Checkout />
           </Route>
         </Switch>
       </div>

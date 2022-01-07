@@ -21,6 +21,8 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 import { Avatar } from "@mui/material";
+import CartTable from "./CartTable";
+import { Button } from "@mui/material";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -30,8 +32,8 @@ const Search = styled("div")(({ theme }) => ({
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
+  width: "50%",
+  [theme.breakpoints.up("md")]: {
     marginLeft: theme.spacing(2),
     width: "auto",
   },
@@ -99,6 +101,8 @@ export default function Navbar({
   cartItems,
   products,
   cartTotal,
+  setCartItems,
+  updateCart,
 }) {
   let showNav = currentUser ? "block" : "hidden";
   function getProductDetails(id) {
@@ -132,28 +136,28 @@ export default function Navbar({
 
   const cartDisplay = (anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 700 }}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
     >
-      {cartItems.length ? (
-        cartItems.map((item) => {
-          let product = getProductDetails(item.product_id);
-
-          return (
-            <>
-              {product[0] && (
-                <p key={product[0].id}>
-                  {product[0].name} {product[0].price} {item.quantity}
-                </p>
-              )}
-            </>
-          );
-        })
-      ) : (
-        <h1>nothing in cart</h1>
-      )}
+      <Typography textAlign="center">
+        {currentUser.first_name}'s Cart: {cartTotal}
+      </Typography>
+      <CartTable
+        cartItems={cartItems}
+        setCartItems={setCartItems}
+        products={products}
+        getProductDetails={getProductDetails}
+        updateCart={updateCart}
+        currentUser={currentUser}
+        style={{
+          maxWidth: "100%",
+          position: "absolute",
+          top: "0px",
+          left: "0px",
+        }}
+      />
+      <Button onClick={() => history.push("/checkout")}>Checkout</Button>
+      <Button onClick={() => history.push("/cart")}>Open Cart</Button>
     </Box>
   );
 
@@ -177,7 +181,7 @@ export default function Navbar({
           </ListItemIcon>
           <ListItemText primary="Cart" />
         </ListItem>
-        <ListItem button key="Checkout">
+        <ListItem button component={Link} to="/checkout" key="Checkout">
           <ListItemIcon>
             <PointOfSaleIcon />
           </ListItemIcon>
@@ -248,7 +252,7 @@ export default function Navbar({
             </>
           </IconButton>
           <Typography>Dan's Store: A Place to Buy Things</Typography>
-          <Search style={{ position: "absolute", right: "100px" }}>
+          <Search style={{ position: "absolute", right: "170px" }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>

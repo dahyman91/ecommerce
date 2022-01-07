@@ -8,6 +8,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 export default function CartTable({
   cartItems,
@@ -31,18 +33,35 @@ export default function CartTable({
       body: JSON.stringify(instance),
     }).then(() => updateCart(instance));
   }
-  console.log();
+
+  function handleRemoveFromCart(product) {
+    const instance = {
+      user_id: currentUser.id,
+      product_id: product.id,
+      quantity: 1,
+    };
+    fetch("/api/product_instances/update", {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(instance),
+    })
+      .then((r) => r.json())
+      .then((res) => console.log(res))
+      .then(() => updateCart(instance));
+  }
 
   return (
     <TableContainer
-      style={{
-        marginTop: "80px",
-        maxWidth: 500,
-        marginLeft: "10vw",
-      }}
+      // style={{
+      //   marginTop: "80px",
+      //   maxWidth: 500,
+      //   marginLeft: "10vw",
+      // }}
       component={Paper}
     >
-      <Table sx={{ maxWidth: 500 }} aria-label="simple table">
+      <Table aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Product</TableCell>
@@ -64,14 +83,34 @@ export default function CartTable({
                       <TableCell component="th" scope="row">
                         {product[0].name}
                       </TableCell>
-                      <TableCell>{product[0].price}</TableCell>
-                      <TableCell>
-                        {item.quantity}
-                        <button onClick={() => handleAddToCart(product[0])}>
-                          add
-                        </button>
+                      <TableCell>${product[0].price}.00</TableCell>
+                      <TableCell
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          textAlign: "center",
+                          height: "100%",
+                        }}
+                      >
+                        <IconButton style={{ width: "20%" }}>
+                          <RemoveIcon
+                            fontSize="small"
+                            onClick={() => handleRemoveFromCart(product[0])}
+                          />
+                        </IconButton>
+
+                        <p style={{ width: "20%", alignSelf: "center" }}>
+                          {item.quantity}
+                        </p>
+                        <IconButton style={{ width: "20%" }}>
+                          <AddIcon
+                            onClick={() => handleAddToCart(product[0])}
+                          />
+                        </IconButton>
                       </TableCell>
-                      <TableCell>{product[0].price * item.quantity}</TableCell>
+                      <TableCell>
+                        ${product[0].price * item.quantity}.00
+                      </TableCell>
                       <TableCell>
                         <IconButton
                           onClick={() => {

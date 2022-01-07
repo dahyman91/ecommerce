@@ -21,6 +21,7 @@ function Products({
   const [priceSorted, setPriceSorted] = useState("no");
   const [nameSorted, setNameSorted] = useState("no");
   const [categorySorted, setCategorySorted] = useState("no");
+  const [reviewSorted, setReviewSorted] = useState("no");
 
   useEffect(() => {
     if (currentUser && products) {
@@ -57,13 +58,13 @@ function Products({
 
   function handleSortName() {
     if (nameSorted === "no") {
-      const sorted = products.sort((a, b) => a.name.localeCompare(b.name));
+      const sorted = products.sort((a, b) => b.name.localeCompare(a.name));
       setProducts(sorted);
       setNameSorted("down");
       setPriceSorted("no");
       setCategorySorted("no");
     } else if (nameSorted === "down") {
-      const sorted = products.sort((a, b) => b.name.localeCompare(a.name));
+      const sorted = products.sort((a, b) => a.name.localeCompare(b.name));
       setProducts(sorted);
       setNameSorted("up");
       setPriceSorted("no");
@@ -81,7 +82,7 @@ function Products({
   function handleSortCategory() {
     if (categorySorted === "no") {
       const sorted = products.sort((a, b) =>
-        a.category.localeCompare(b.category)
+        b.category.localeCompare(a.category)
       );
       setProducts(sorted);
       setNameSorted("no");
@@ -89,7 +90,7 @@ function Products({
       setCategorySorted("down");
     } else if (categorySorted === "down") {
       const sorted = products.sort((a, b) =>
-        b.category.localeCompare(a.category)
+        a.category.localeCompare(b.category)
       );
       setProducts(sorted);
       setNameSorted("no");
@@ -103,6 +104,42 @@ function Products({
       setPriceSorted("no");
       setCategorySorted("no");
     }
+  }
+
+  function handleReviewSort() {
+    if (reviewSorted === "no") {
+      const sorted = products.sort(
+        (a, b) => b.average_review - a.average_review
+      );
+      setProducts(sorted);
+      setReviewSorted("down");
+      setNameSorted("no");
+      setPriceSorted("no");
+      setCategorySorted("no");
+    } else if (reviewSorted === "down") {
+      const sorted = products.sort(
+        (a, b) => a.average_review - b.average_review
+      );
+      setProducts(sorted);
+      setReviewSorted("up");
+      setNameSorted("no");
+      setCategorySorted("no");
+      setPriceSorted("no");
+    } else {
+      fetch("/api/products")
+        .then((res) => res.json())
+        .then((data) => setProducts(data));
+      setReviewSorted("no");
+      setNameSorted("no");
+      setCategorySorted("no");
+      setPriceSorted("no");
+    }
+  }
+
+  function fetchProducts() {
+    fetch("/api/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data));
   }
 
   let priceSortEmoji;
@@ -132,6 +169,15 @@ function Products({
     categorySortEmoji = "⬆️";
   }
 
+  let reviewSortEmoji;
+  if (reviewSorted === "no") {
+    reviewSortEmoji = "";
+  } else if (reviewSorted === "down") {
+    reviewSortEmoji = "⬇️";
+  } else {
+    reviewSortEmoji = "⬆️";
+  }
+
   return (
     <>
       <div style={{ height: "90px" }}></div>
@@ -152,6 +198,9 @@ function Products({
         </Button>
         <Button onClick={handleSortCategory} variant="outlined">
           Sort By Category {categorySortEmoji}
+        </Button>
+        <Button onClick={handleReviewSort} variant="outlined">
+          Sort By Average Review {reviewSortEmoji}
         </Button>
       </div>
       <div

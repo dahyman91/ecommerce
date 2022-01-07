@@ -1,11 +1,15 @@
 class Api::ReviewsController < ApplicationController
 
   def create
-    review = Review.create!(review_params)
+    user = User.find_by(id: review_params[:user_id])
+    existing_review = user.reviews.find_by(product_id: params[:product_id])
+    if existing_review
+      review = existing_review.update!(rating: review_params[:rating])
+    else
+      review = Review.create!(review_params)
+    end
     render json: review, status: :created
   end
-
-  
 
   private
 

@@ -5,8 +5,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -23,12 +21,11 @@ function Copyright(props) {
       align="center"
       {...props}
     >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      {"No Copyright © "}
+      <Link color="inherit" href="https://www.linkedin.com/in/dan-hyman-dev/">
+        Dan Hyman
       </Link>{" "}
       {new Date().getFullYear()}
-      {"."}
     </Typography>
   );
 }
@@ -130,10 +127,7 @@ export default function LogIn({ setCurrentUser, currentUser }) {
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+
               <Button
                 type="submit"
                 fullWidth
@@ -142,12 +136,7 @@ export default function LogIn({ setCurrentUser, currentUser }) {
               >
                 Sign In
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
+              <Grid container justifyContent="center">
                 <Grid item>
                   <Link href="/sign-up" variant="body2">
                     {"Don't have an account? Sign Up"}

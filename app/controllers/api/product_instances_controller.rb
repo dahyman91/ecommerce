@@ -12,10 +12,21 @@ class Api::ProductInstancesController < ApplicationController
   end
 
   def update
-    product_instance = ProductInstance.find_by(id: params[:id])
-    product_instance.update!(product_params)
+    user = User.find_by(id: product_params[:user_id])
+    product = user.product_instances.find_by(product_id: params[:product_id])
+    if product.quantity == 1
+      product.destroy
+    elsif product.quantity >= 2
+      product_instance = product.update!(quantity: product.quantity - 1)
+    end
     render json: product_instance, status: :accepted
   end
+
+  # def update
+  #   product_instance = ProductInstance.find_by(id: params[:id])
+  #   product_instance.update!(product_params)
+  #   render json: product_instance, status: :accepted
+  # end
 
   def index
     render json: ProductInstance.all

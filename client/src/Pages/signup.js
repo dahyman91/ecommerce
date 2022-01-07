@@ -18,11 +18,10 @@ function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {"No Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Store
+      <Link color="inherit" href="https://www.linkedin.com/in/dan-hyman-dev/">
+        Dan Hyman
       </Link>{" "}
       {new Date().getFullYear()}
-      {"."}
     </Typography>
   );
 }
@@ -165,11 +164,6 @@ export default function SignUp({ setCurrentUser, currentUser }) {
                   Already have an account? Sign in
                 </Link>
               </Grid>
-            </Grid>
-            <Grid container justifyContent="center">
-              <Link href="/home" variant="body2">
-                Continue as Guest
-              </Link>
             </Grid>
           </Box>
         </Box>

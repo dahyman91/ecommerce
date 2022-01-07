@@ -25,7 +25,14 @@ function Cart({
 
   return (
     <div style={{ display: "flex" }}>
-      <div>
+      <div
+        style={{
+          textAlign: "center",
+          marginTop: "80px",
+          width: 700,
+          marginLeft: "10vw",
+        }}
+      >
         <CartTable
           getProductDetails={getProductDetails}
           products={products}

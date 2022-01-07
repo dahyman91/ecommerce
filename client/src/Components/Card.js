@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import Link from "@mui/material/Link";
 import CardContent from "@mui/material/CardContent";
@@ -10,10 +10,28 @@ import Rating from "@mui/material/Rating";
 export default function MultiActionAreaCard({
   product,
   currentUser,
-  cartItems,
   updateCart,
 }) {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(parseFloat(product.average_review));
+  const [reviewed, setReviewed] = useState(false);
+
+  function handleReview(e, value) {
+    const review = {
+      user_id: currentUser.id,
+      product_id: product.id,
+      rating: parseFloat(e.target.value),
+      content: "",
+    };
+    setValue(e.target.value);
+    fetch("/api/reviews", {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(review),
+    }).then(setReviewed(true));
+  }
+
   function handleAddToCart() {
     const instance = {
       user_id: currentUser.id,
@@ -46,10 +64,9 @@ export default function MultiActionAreaCard({
           <CardContent style={{ textAlign: "center" }}>
             <Rating
               name="simple-controlled"
+              precision={0.5}
               value={value}
-              onChange={(event, newValue) => {
-                setValue(newValue);
-              }}
+              onChange={(e) => handleReview(e, value)}
             />
             <Typography gutterBottom variant="h5" component="div">
               {product.name}

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Parallax, Background } from "react-parallax";
 import photo from "../Assets/photo.jpeg";
 import { useParams } from "react-router-dom";
-
 import Button from "@mui/material/Button";
+import Rating from "@mui/material/Rating";
 
 const styles = {
   fontFamily: "sans-serif",
@@ -22,9 +23,10 @@ const insideStyles = {
   transform: "translate(-50%,-50%)",
 };
 
-function Product({ currentUser, updateCart, setCartItems, products }) {
+function Product({ currentUser, updateCart, setCartItems, products, users }) {
   const { product } = useParams();
   const [selectedProduct, setSelectedProduct] = useState({});
+  console.log(selectedProduct.average_review);
 
   useEffect(() => {
     fetch(`/api/products/${product}`)
@@ -33,7 +35,7 @@ function Product({ currentUser, updateCart, setCartItems, products }) {
   }, [product]);
 
   useEffect(() => {
-    if (currentUser && products) {
+    if (selectedProduct) {
       fetch("/api/me").then((r) => {
         if (r.ok) {
           r.json().then((user) => setCartItems(user.product_instances));
@@ -54,9 +56,14 @@ function Product({ currentUser, updateCart, setCartItems, products }) {
         "content-type": "application/json",
       },
       body: JSON.stringify(instance),
-    });
-    updateCart(instance);
+    }).then(() => updateCart(instance));
   }
+
+  function getUserFirstName(input_id) {
+    let user = users.length && users.filter((user) => input_id === user.id);
+    return user[0].first_name;
+  }
+
   return (
     <>
       <div>
@@ -81,11 +88,55 @@ function Product({ currentUser, updateCart, setCartItems, products }) {
           </Parallax>
           <div style={{ marginLeft: "10vw", marginTop: "10%", width: "20vw" }}>
             <h2>{selectedProduct.name}</h2>
+
+            {selectedProduct.average_review && (
+              <Rating
+                name="simple-controlled"
+                precision={0.5}
+                value={selectedProduct.average_review}
+                readOnly
+              />
+            )}
             <p style={{ marginTop: "30px" }}>Description:</p>
             <p style={{}}>{selectedProduct.description}</p>
             <p style={{ marginTop: "10px" }}>Price:</p>
             <p style={{}}>${selectedProduct.price}</p>
           </div>
+        </div>
+      </div>
+
+      <div>
+        <div style={{ width: "100vw", marginTop: "5vh" }}>
+          {selectedProduct.reviews &&
+            selectedProduct.reviews.map((review) => {
+              console.log(getUserFirstName(review.user_id));
+              return (
+                <div
+                  style={{
+                    height: "5vh",
+                    width: "80vw",
+                    display: "flex",
+                    margin: "auto",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <p style={{}}>Name: {getUserFirstName(review.user_id)}</p>
+                  <Rating
+                    name="simple-controlled"
+                    precision={0.5}
+                    value={review.rating}
+                    readOnly
+                  />
+
+                  {review.content ? (
+                    <p style={{}}>review.content</p>
+                  ) : (
+                    <p style={{}}></p>
+                  )}
+                </div>
+              );
+            })}
         </div>
       </div>
 
@@ -100,9 +151,21 @@ function Product({ currentUser, updateCart, setCartItems, products }) {
       >
         <Parallax
           bgImage={[photo]}
-          strength={200}
+          strength={400}
           renderLayer={(percentage) => (
-            <div>
+            <div
+              style={{
+                width: "100%",
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%,-50%)",
+                zIndex: "1",
+              }}
+            >
+              <Button href="/products" style={insideStyles}>
+                Back To Store
+              </Button>
               <div
                 style={{
                   position: "absolute",
@@ -111,19 +174,18 @@ function Product({ currentUser, updateCart, setCartItems, products }) {
                   top: "50%",
                   borderRadius: "50%",
                   transform: "translate(-50%,-50%)",
-                  width: "20%",
-                  height: 100,
+                  width: 300,
+                  height: 300,
+                  zIndex: "-1",
                 }}
               />
             </div>
           )}
         >
-          <div style={{ height: 500 }}>
-            <div style={insideStyles}>Back To Store</div>
-          </div>
+          <div style={{ height: 500 }}></div>
         </Parallax>
 
-        <Parallax strength={500}>
+        <Parallax strength={100}>
           <Background className="custom-bg">
             <div
               style={{
@@ -134,7 +196,6 @@ function Product({ currentUser, updateCart, setCartItems, products }) {
             />
           </Background>
         </Parallax>
-        <div style={{ height: 500 }} />
       </div>
     </>
   );
