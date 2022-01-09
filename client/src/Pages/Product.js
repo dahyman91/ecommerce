@@ -69,7 +69,7 @@ function Product({ currentUser, updateCart, setCartItems, products, users }) {
         <div style={styles}>
           <Parallax
             bgImage={selectedProduct.primary_image}
-            strength={500}
+            strength={-200}
             style={{ borderRadius: "10%" }}
           >
             <div style={{ height: 500, width: "30vw" }}>
@@ -132,11 +132,7 @@ function Product({ currentUser, updateCart, setCartItems, products, users }) {
                     readOnly
                   />
 
-                  {review.content ? (
-                    <p style={{}}>review.content</p>
-                  ) : (
-                    <p style={{}}></p>
-                  )}
+                  {review.content ? <p>review.content</p> : <p></p>}
                 </div>
               );
             })}

@@ -38,6 +38,7 @@ export default function LogIn({ setCurrentUser, currentUser }) {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  console.log(errors);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,7 +57,7 @@ export default function LogIn({ setCurrentUser, currentUser }) {
           history.push("/products");
         });
       } else {
-        r.json().then((err) => setErrors(err.errors));
+        r.json().then((err) => console.log(err.errors));
       }
     });
   };
