@@ -1,26 +1,14 @@
 
 puts 'Creating Users'
 
-# User.create(
-#   first_name: 'Dan',
-#   last_name: 'Hyman',
-#   email: 'dahyman91@gmail.com'
-# )
+
 
 puts 'Creating Products'
 
 
-# 100.times do |x|
-#   Product.create(
-#     name: Faker::Book.title,
-#     price: Faker::Number.decimal(l_digits: 2),
-#     description: Faker::TvShows::Seinfeld.quote,
-#     category: Faker::TvShows::Seinfeld.business,
-#     primary_image:
-#       'https://source.unsplash.com/random/?clothing',
-#     secondary_image: 'https://source.unsplash.com/random/?shoe'
-#   )
-# end
+
+Product.destroy_all
+
 Product.create(
     name: 'Pants',
     price: 20,

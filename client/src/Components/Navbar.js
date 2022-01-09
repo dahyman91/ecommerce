@@ -135,6 +135,15 @@ export default function Navbar({
     });
   }
 
+  function handlelogoutCreateAccount() {
+    fetch("/api/logout", { method: "DELETE" }).then((r) => {
+      if (r.ok) {
+        setCurrentUser(null);
+        history.push("/sign-up");
+      }
+    });
+  }
+
   const cartDisplay = (anchor) => (
     <Box
       sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 700 }}
@@ -214,13 +223,7 @@ export default function Navbar({
           </ListItemIcon>
           <ListItemText primary="Sign Out" />
         </ListItem>
-        <ListItem
-          button
-          onClick={handlelogout}
-          // component={Link}
-          // to="/sign-up"
-          key="Sign Up"
-        >
+        <ListItem button onClick={handlelogoutCreateAccount} key="Sign Up">
           <ListItemIcon>
             <LogoutIcon />
           </ListItemIcon>

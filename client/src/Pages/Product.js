@@ -60,7 +60,7 @@ function Product({ currentUser, updateCart, setCartItems, products, users }) {
 
   function getUserFirstName(input_id) {
     let user = users.length && users.filter((user) => input_id === user.id);
-    return user[0].first_name;
+    return user[0]?.first_name;
   }
 
   return (
@@ -124,7 +124,7 @@ function Product({ currentUser, updateCart, setCartItems, products, users }) {
                     alignItems: "center",
                   }}
                 >
-                  <p style={{}}>Name: {getUserFirstName(review.user_id)}</p>
+                  <p style={{}}>{getUserFirstName(review.user_id)}</p>
                   <Rating
                     name="simple-controlled"
                     precision={0.5}
