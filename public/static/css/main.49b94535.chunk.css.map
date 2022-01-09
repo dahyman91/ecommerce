@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack://src/App.css"],"names":[],"mappings":"AAAA,EACE,QAAS,CACT,qBAEF","file":"main.49b94535.chunk.css","sourcesContent":["* {\n  margin: 0;\n  box-sizing: border-box;\n  /* border: 1px solid red; */\n}\n\n/* .MuiButtonBase-root {\n  padding: 2000px;\n} */\n"]}
