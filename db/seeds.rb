@@ -1,7 +1,7 @@
 
-puts 'Creating Users'
+puts 'Deleting Users'
 
-
+User.destroy_all
 
 puts 'Creating Products'
 
