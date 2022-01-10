@@ -40,6 +40,18 @@ export default function ComboBox({ products }) {
           history.push(`/products/${id}`);
         }
       }}
+      onSubmit={(e) => {
+        let id = e.target.value && getProductId(e.target.value);
+        if (id) {
+          history.push(`/products/${id}`);
+        }
+      }}
+      onChange={(e) => {
+        let id = e.target.value && getProductId(e.target.value);
+        if (id) {
+          history.push(`/products/${id}`);
+        }
+      }}
       sx={{ width: 500 }}
       renderInput={(params) => (
         <TextField {...params} label="Search Products" />

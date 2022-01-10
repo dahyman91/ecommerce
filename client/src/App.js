@@ -64,10 +64,15 @@ function App() {
   // Get Cart Total
   useEffect(() => {
     let productArr = [];
+    console.log(productArr);
     let total;
+    console.log("total", total);
     cartItems.map((item) => {
+      console.log("item", item);
       let product = getProductDetails(item.product_id);
+      console.log("product", product);
       productArr.push(product[0]?.price * item.quantity);
+      console.log(product[0]?.price * item.quantity);
       return (total = productArr.reduce(
         (item, cartTotal) => item + cartTotal,
         0
