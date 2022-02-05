@@ -45,6 +45,7 @@ export default function MultiActionAreaCard({
       product_id: product.id,
       quantity: 1,
     };
+    console.log(instance);
     fetch("/api/product_instances", {
       method: "post",
       headers: {

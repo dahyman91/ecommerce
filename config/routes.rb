@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     resources :products
     resources :product_instances
     resources :reviews
+    resources :charges
     patch '/reduce', to: 'products#update'
     post '/login', to: 'sessions#create'
     get '/auth', to: 'users#show'
@@ -12,5 +13,7 @@ Rails.application.routes.draw do
     post '/signup', to: 'users#create'
   end
 
-  get "*path", to: "fallback#index", constraints: ->(req) { !req.xhr? && req.format.html? }
+  get '*path',
+      to: 'fallback#index',
+      constraints: ->(req) { !req.xhr? && req.format.html? }
 end

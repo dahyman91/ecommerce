@@ -35,7 +35,7 @@ function App() {
   }, [currentUser]);
 
   useEffect(() => {
-    if (currentUser && products) {
+    if (currentUser) {
       fetch("/api/me").then((r) => {
         if (r.ok) {
           r.json().then((user) => setCartItems(user.product_instances));

@@ -1,18 +1,18 @@
 class Api::ProductInstancesController < ApplicationController
-
   def create
-    user = User.find_by(id: product_params[:user_id])
+    user = User.find_by(id: session[:user_id])
     product = user.product_instances.find_by(product_id: params[:product_id])
+
     if product
       product_instance = product.update!(quantity: product.quantity + 1)
     else
-      product_instance = ProductInstance.create!(product_params)
+      product_instance = user.product_instances.create!(product_params)
     end
     render json: product_instance, status: :accepted
   end
 
   def update
-    user = User.find_by(id: product_params[:user_id])
+    user = User.find_by(id: session[:user_id])
     product = user.product_instances.find_by(product_id: params[:product_id])
     if product.quantity == 1
       product.destroy
@@ -41,6 +41,6 @@ class Api::ProductInstancesController < ApplicationController
   private
 
   def product_params
-    params.permit(:user_id, :product_id, :quantity)
+    params.permit(:product_id, :quantity)
   end
 end

@@ -12,12 +12,6 @@ function Products({
   cartItems,
   updateCart,
 }) {
-  // useEffect(() => {
-  //   fetch("/products")
-  //     .then((res) => res.json())
-  //     .then((data) => setProducts(data));
-  // }, []);
-
   const [priceSorted, setPriceSorted] = useState("no");
   const [nameSorted, setNameSorted] = useState("no");
   const [categorySorted, setCategorySorted] = useState("no");

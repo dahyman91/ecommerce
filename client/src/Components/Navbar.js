@@ -24,6 +24,7 @@ import { Link } from "react-router-dom";
 import { Avatar } from "@mui/material";
 import CartTable from "./CartTable";
 import { Button } from "@mui/material";
+import CreateCharge from "./CreateCharge";
 
 // const Search = styled("div")(({ theme }) => ({
 //   position: "relative",
@@ -111,6 +112,7 @@ export default function Navbar({
     return product;
   }
   let history = useHistory();
+  let testButton = <Button variant="outlined">Checkout</Button>;
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -154,7 +156,7 @@ export default function Navbar({
         style={{ fontSize: "20px", padding: "10px" }}
       >
         {cartTotal
-          ? `${currentUser.first_name}'s Cart: Total ${cartTotal}`
+          ? `${currentUser.first_name}'s Cart: Total $${cartTotal}`
           : `${currentUser.first_name}'s Cart: Empty`}
       </Typography>
       <CartTable
@@ -178,9 +180,11 @@ export default function Navbar({
           marginTop: "20px",
         }}
       >
-        <Button variant="outlined" onClick={() => history.push("/checkout")}>
+        {/* <Button variant="outlined" onClick={() => history.push("/checkout")}>
           Checkout
-        </Button>
+        </Button> */}
+        <CreateCharge testButton={testButton} amount={cartTotal * 100} />
+
         <Button variant="outlined" onClick={() => history.push("/cart")}>
           Open Cart
         </Button>
@@ -277,15 +281,6 @@ export default function Navbar({
             products={products}
             style={{ position: "absolute", right: "1px" }}
           />
-          {/* <Search style={{ position: "absolute", right: "170px" }}>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search> */}
           <IconButton
             size="large"
             edge="end"

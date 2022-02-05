@@ -6,6 +6,8 @@ class Api::ProductsController < ApplicationController
     render json: product, status: :ok
   end
 
+
+
   def index
     render json: Product.all, status: :ok
   end

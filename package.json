@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@mui/icons-material": "^5.2.5",
-    "react-error-overlay": "^6.0.9"
+    "react-error-overlay": "^6.0.9",
+    "react-stripe-checkout": "^2.6.3"
   }
 }
