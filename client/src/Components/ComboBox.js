@@ -7,14 +7,18 @@ import { styled, alpha } from "@mui/material/styles";
 export default function ComboBox({ products }) {
   const AutoCompleteStyled = styled(Autocomplete)(({ theme }) => ({
     position: "absolute",
-    right: "170px",
+    right: "150px",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
     "&:hover": {
       backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
 
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+
+    [theme.breakpoints.up("xs")]: {
       marginLeft: theme.spacing(2),
       width: "15%",
     },

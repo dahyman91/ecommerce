@@ -7,3 +7,9 @@
 /* .MuiButtonBase-root {
   padding: 2000px;
 } */
+
+/* @media screen and (max-width: 1000px) {
+  .combo-box {
+    display: hidden;
+  }
+} */

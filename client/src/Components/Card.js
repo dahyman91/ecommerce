@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import Link from "@mui/material/Link";
 import CardContent from "@mui/material/CardContent";
@@ -55,7 +55,7 @@ export default function MultiActionAreaCard({
     }).then(() => updateCart(instance));
   }
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, margin: "auto" }}>
       <CardActionArea>
         <Link
           href={`/products/${product.id}`}

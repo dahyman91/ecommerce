@@ -65,7 +65,7 @@ function Product({ currentUser, updateCart, setCartItems, products, users }) {
 
   return (
     <>
-      <div>
+      <div className="product-container">
         <div style={styles}>
           <Parallax
             bgImage={selectedProduct.primary_image}

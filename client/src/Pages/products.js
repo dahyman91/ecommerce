@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Header from "../Components/Header";
-import { Button } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 
 import MultiActionAreaCard from "../Components/Card";
 
@@ -197,31 +196,25 @@ function Products({
           Sort By Average Review {reviewSortEmoji}
         </Button>
       </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(5, 1fr)",
-          gridGap: "2rem",
-          margin: "auto",
-          width: "90%",
-        }}
-      >
+      <Grid container rowSpacing={3}>
         {products &&
           products.map((product) => {
             return (
-              <MultiActionAreaCard
-                key={product.id}
-                currentUser={currentUser}
-                product={product}
-                products={products}
-                setProducts={setProducts}
-                cartItems={cartItems}
-                setCartItems={setCartItems}
-                updateCart={updateCart}
-              />
+              <Grid item md={3} sm={6} xs={12}>
+                <MultiActionAreaCard
+                  key={product.id}
+                  currentUser={currentUser}
+                  product={product}
+                  products={products}
+                  setProducts={setProducts}
+                  cartItems={cartItems}
+                  setCartItems={setCartItems}
+                  updateCart={updateCart}
+                />
+              </Grid>
             );
           })}
-      </div>
+      </Grid>
     </>
   );
 }

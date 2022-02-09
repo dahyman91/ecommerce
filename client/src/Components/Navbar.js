@@ -16,30 +16,14 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import { styled, alpha } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 import { Avatar } from "@mui/material";
 import CartTable from "./CartTable";
 import { Button } from "@mui/material";
 import CreateCharge from "./CreateCharge";
-
-// const Search = styled("div")(({ theme }) => ({
-//   position: "relative",
-//   borderRadius: theme.shape.borderRadius,
-//   backgroundColor: alpha(theme.palette.common.white, 0.15),
-//   "&:hover": {
-//     backgroundColor: alpha(theme.palette.common.white, 0.25),
-//   },
-//   marginLeft: 0,
-//   width: "50%",
-//   [theme.breakpoints.up("md")]: {
-//     marginLeft: theme.spacing(2),
-//     width: "auto",
-//   },
-// }));
 
 function stringToColor(string) {
   let hash = 0;
@@ -69,33 +53,6 @@ function stringAvatar(name) {
     children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
   };
 }
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      "&:focus": {
-        width: "20ch",
-      },
-    },
-  },
-}));
-
-// const SearchIconWrapper = styled("div")(({ theme }) => ({
-//   padding: theme.spacing(0, 2),
-//   height: "100%",
-//   position: "absolute",
-//   pointerEvents: "none",
-//   display: "flex",
-//   alignItems: "center",
-//   justifyContent: "center",
-// }));
 
 export default function Navbar({
   currentUser,
@@ -180,9 +137,6 @@ export default function Navbar({
           marginTop: "20px",
         }}
       >
-        {/* <Button variant="outlined" onClick={() => history.push("/checkout")}>
-          Checkout
-        </Button> */}
         <CreateCharge testButton={testButton} amount={cartTotal * 100} />
 
         <Button variant="outlined" onClick={() => history.push("/cart")}>
@@ -279,7 +233,8 @@ export default function Navbar({
           <Typography>Dan's Store: A Place to Buy Things</Typography>
           <ComboBox
             products={products}
-            style={{ position: "absolute", right: "1px" }}
+            className="combo-box"
+            style={{ display: "none" }}
           />
           <IconButton
             size="large"
